@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Decision</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="start-screen" class="screen">
+            <div class="logo">
+                <h1>Executive Decision</h1>
+                <h2>Run Pretty Close Centres to corporate glory... or ruin</h2>
+            </div>
+            <button id="start-button" class="primary-button">Start New Game</button>
+            <button id="load-button" class="secondary-button">Load Game</button>
+            <div class="footer">
+                <p>A corporate decision-making game inspired by Reigns</p>
+            </div>
+        </div>
+
+        <div id="game-screen" class="screen hidden">
+            <div id="header">
+                <div id="year-display">Year: <span id="year">1</span></div>
+                <div id="company-name">Pretty Close Centres</div>
+                <div id="menu-button">≡</div>
+            </div>
+
+            <div id="metrics-panel">
+                <div class="metric-group">
+                    <h3>Core Business</h3>
+                    <div class="metric" id="revenue">
+                        <span class="metric-label">Revenue</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="employee-engagement">
+                        <span class="metric-label">Employee Engagement</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="customer-satisfaction">
+                        <span class="metric-label">Customer Satisfaction</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                </div>
+
+                <div class="metric-group collapsible" id="values-metrics">
+                    <h3>Corporate Values</h3>
+                    <div class="metric" id="respect">
+                        <span class="metric-label">Respect</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="integrity">
+                        <span class="metric-label">Integrity</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="collaboration">
+                        <span class="metric-label">Collaboration</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="customer-focus">
+                        <span class="metric-label">Customer Focus</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="excellence">
+                        <span class="metric-label">Excellence</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                </div>
+
+                <div class="metric-group collapsible" id="faction-metrics">
+                    <h3>Faction Reputation</h3>
+                    <div class="metric" id="banks">
+                        <span class="metric-label">Banks</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="co-owners">
+                        <span class="metric-label">Co-owners</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="regulators">
+                        <span class="metric-label">Regulators</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="government">
+                        <span class="metric-label">Government</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                    <div class="metric" id="security-holders">
+                        <span class="metric-label">Security Holders</span>
+                        <div class="meter-container">
+                            <div class="meter" style="width: 50%;"></div>
+                        </div>
+                        <span class="metric-value">50</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="scenario-container">
+                <div id="scenario-card">
+                    <div id="scenario-image"></div>
+                    <div id="scenario-content">
+                        <h3 id="scenario-title">Scenario Title</h3>
+                        <p id="scenario-description">Scenario description goes here...</p>
+                    </div>
+                </div>
+                <div id="choices-container">
+                    <!-- Choices will be generated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <div id="game-over-screen" class="screen hidden">
+            <h2>Game Over</h2>
+            <p id="game-over-reason">Game over reason goes here</p>
+            <div id="final-stats">
+                <h3>Final Stats</h3>
+                <div id="final-stats-content"></div>
+                <div id="final-score">
+                    <h3>Years Survived: <span id="years-survived">0</span></h3>
+                </div>
+            </div>
+            <button id="restart-button" class="primary-button">Play Again</button>
+            <button id="main-menu-button" class="secondary-button">Main Menu</button>
+        </div>
+
+        <div id="menu-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Menu</h2>
+                <button id="save-game-button" class="menu-button">Save Game</button>
+                <button id="menu-load-button" class="menu-button">Load Game</button>
+                <button id="view-stats-button" class="menu-button">View Stats</button>
+                <button id="view-bonuses-button" class="menu-button">View Bonuses</button>
+                <button id="view-scenario-packs-button" class="menu-button">View Scenario Packs</button>
+                <button id="close-menu-button" class="menu-button">Close Menu</button>
+                <button id="quit-button" class="menu-button danger">Quit to Main Menu</button>
+            </div>
+        </div>
+
+        <div id="stats-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Company Statistics</h2>
+                <div id="stats-content"></div>
+                <button id="close-stats-button" class="menu-button">Close</button>
+            </div>
+        </div>
+
+        <div id="bonuses-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Available Bonuses</h2>
+                <div id="bonuses-content">
+                    <p>Loading bonuses...</p>
+                </div>
+                <button id="close-bonuses-button" class="menu-button">Close</button>
+            </div>
+        </div>
+
+        <div id="scenario-packs-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Scenario Packs</h2>
+                <div id="scenario-packs-content">
+                    <p>Loading scenario packs...</p>
+                </div>
+                <button id="close-scenario-packs-button" class="menu-button">Close</button>
+            </div>
+        </div>
+
+        <div id="feedback-overlay" class="overlay hidden">
+            <div class="overlay-content feedback-content">
+                <h3 id="feedback-title">Decision Made</h3>
+                <div id="feedback-effects"></div>
+                <button id="continue-button" class="primary-button">Continue</button>
+            </div>
+        </div>
+
+        <div id="notification" class="hidden">
+            <p id="notification-message"></p>
+        </div>
+    </div>
+
+    <script>
+        // Core Game Logic
+        class GameState {
+            constructor() {
+                // Initialize core business metrics
+                this.metrics = {
+                    revenue: 50,
+                    employeeEngagement: 50,
+                    customerSatisfaction: 50
+                };
+
+                // Initialize corporate values
+                this.values = {
+                    respect: 50,
+                    integrity: 50,
+                    collaboration: 50,
+                    customerFocus: 50,
+                    excellence: 50
+                };
+
+                // Initialize faction reputations
+                this.factions = {
+                    banks: 50,
+                    coOwners: 50,
+                    regulators: 50,
+                    government: 50,
+                    securityHolders: 50
+                };
+
+                // Game progression
+                this.year = 1;
+                this.scenariosHandled = 0;
+                this.activeBonuses = [];
+
+                // Game state flags
+                this.flags = {};
+                
+                // Statistics
+                this.stats = {
+                    decisionsPerYear: {},
+                    metricHistory: {},
+                    flagsTriggered: []
+                };
+            }
+
+            // Apply scenario outcome effects
+            applyOutcome(outcome) {
+                let effects = {
+                    metrics: {},
+                    values: {},
+                    factions: {},
+                    flags: []
+                };
+
+                // Apply effects to metrics
+                if (outcome.metrics) {
+                    for (const [metric, change] of Object.entries(outcome.metrics)) {
+                        const mappedMetric = this.mapMetricName(metric);
+                        if (this.metrics.hasOwnProperty(mappedMetric)) {
+                            const originalValue = this.metrics[mappedMetric];
+                            this.metrics[mappedMetric] = Math.max(0, Math.min(100, this.metrics[mappedMetric] + change));
+                            effects.metrics[mappedMetric] = {
+                                previous: originalValue,
+                                change: change,
+                                current: this.metrics[mappedMetric]
+                            };
+                        }
+                    }
+                }
+
+                // Apply effects to values
+                if (outcome.values) {
+                    for (const [value, change] of Object.entries(outcome.values)) {
+                        const mappedValue = this.mapValueName(value);
+                        if (this.values.hasOwnProperty(mappedValue)) {
+                            const originalValue = this.values[mappedValue];
+                            this.values[mappedValue] = Math.max(0, Math.min(100, this.values[mappedValue] + change));
+                            effects.values[mappedValue] = {
+                                previous: originalValue,
+                                change: change,
+                                current: this.values[mappedValue]
+                            };
+                        }
+                    }
+                }
+
+                // Apply effects to factions
+                if (outcome.factions) {
+                    for (const [faction, change] of Object.entries(outcome.factions)) {
+                        const mappedFaction = this.mapFactionName(faction);
+                        if (this.factions.hasOwnProperty(mappedFaction)) {
+                            const originalValue = this.factions[mappedFaction];
+                            this.factions[mappedFaction] = Math.max(0, Math.min(100, this.factions[mappedFaction] + change));
+                            effects.factions[mappedFaction] = {
+                                previous: originalValue,
+                                change: change,
+                                current: this.factions[mappedFaction]
+                            };
+                        }
+                    }
+                }
+
+                // Set flags
+                if (outcome.flags) {
+                    for (const flag of outcome.flags) {
+                        this.flags[flag] = true;
+                        effects.flags.push(flag);
+                        if (!this.stats.flagsTriggered.includes(flag)) {
+                            this.stats.flagsTriggered.push(flag);
+                        }
+                    }
+                }
+
+                // Track statistics
+                this.scenariosHandled++;
+                if (!this.stats.decisionsPerYear[this.year]) {
+                    this.stats.decisionsPerYear[this.year] = 0;
+                }
+                this.stats.decisionsPerYear[this.year]++;
+
+                // Check for year advancement (after 5 scenarios)
+                if (this.scenariosHandled % 5 === 0) {
+                    this.advanceYear();
+                }
+
+                // Check for any max value bonuses
+                this.checkForBonuses();
+
+                return effects;
+            }
+
+            // Helper method to map metric names from scenarios to property names
+            mapMetricName(metricName) {
+                const metricMap = {
+                    'revenue': 'revenue',
+                    'employee_engagement': 'employeeEngagement',
+                    'customer_satisfaction': 'customerSatisfaction'
+                };
+                return metricMap[metricName] || metricName;
+            }
+
+            // Helper method to map value names from scenarios to property names
+            mapValueName(valueName) {
+                const valueMap = {
+                    'respect': 'respect',
+                    'integrity': 'integrity',
+                    'collaboration': 'collaboration',
+                    'customer_focus': 'customerFocus',
+                    'excellence': 'excellence'
+                };
+                return valueMap[valueName] || valueName;
+            }
+
+            // Helper method to map faction names from scenarios to property names
+            mapFactionName(factionName) {
+                const factionMap = {
+                    'banks': 'banks',
+                    'co_owners': 'coOwners',
+                    'regulators': 'regulators',
+                    'government': 'government',
+                    'security_holders': 'securityHolders'
+                };
+                return factionMap[factionName] || factionName;
+            }
+
+            // Advance to the next year
+            advanceYear() {
+                this.year++;
+                // Save current metrics to history
+                this.recordMetricHistory();
+                
+                // Trigger year transition events or bonuses
+                this.applyYearlyEffects();
+            }
+
+            // Record metric history for charts/statistics
+            recordMetricHistory() {
+                if (!this.stats.metricHistory[this.year - 1]) {
+                    this.stats.metricHistory[this.year - 1] = {
+                        metrics: {...this.metrics},
+                        values: {...this.values},
+                        factions: {...this.factions}
+                    };
+                }
+            }
+
+            // Apply yearly effects (could be adjusted for difficulty)
+            applyYearlyEffects() {
+                // For example, slight decline in some metrics to create natural challenge
+                this.metrics.revenue = Math.max(0, this.metrics.revenue - 2);
+                this.metrics.employeeEngagement = Math.max(0, this.metrics.employeeEngagement - 1);
+                // More effects could be added here
+            }
+
+            // Check for any bonuses from maxed metrics/values
+            checkForBonuses() {
+                // Check core metrics
+                for (const [metric, value] of Object.entries(this.metrics)) {
+                    if (value >= 100 && !this.activeBonuses.includes(`${metric}_max`)) {
+                        this.activeBonuses.push(`${metric}_max`);
+                        // Apply bonus effects here
+                    }
+                }
+                
+                // Check values
+                for (const [value, rating] of Object.entries(this.values)) {
+                    if (rating >= 100 && !this.activeBonuses.includes(`${value}_max`)) {
+                        this.activeBonuses.push(`${value}_max`);
+                        // Apply bonus effects here
+                    }
+                }
+                
+                // Check factions
+                for (const [faction, rating] of Object.entries(this.factions)) {
+                    if (rating >= 100 && !this.activeBonuses.includes(`${faction}_max`)) {
+                        this.activeBonuses.push(`${faction}_max`);
+                        // Apply bonus effects here
+                    }
+                }
+            }
+
+            // Check if game over
+            isGameOver() {
+                // Check if any core metrics are at 0
+                for (const value of Object.values(this.metrics)) {
+                    if (value <= 0) return true;
+                }
+                
+                // Check if any values are at 0
+                for (const value of Object.values(this.values)) {
+                    if (value <= 0) return true;
+                }
+                
+                // Check if any faction reputations are at 0
+                for (const value of Object.values(this.factions)) {
+                    if (value <= 0) return true;
+                }
+                
+                return false;
+            }
+
+            // Get reason for game over
+            getGameOverReason() {
+                // Check core metrics
+                for (const [metric, value] of Object.entries(this.metrics)) {
+                    if (value <= 0) {
+                        switch(metric) {
+                            case 'revenue':
+                                return "Your company went bankrupt due to insufficient revenue.";
+                            case 'employeeEngagement':
+                                return "Your employees lost all motivation and began leaving en masse.";
+                            case 'customerSatisfaction':
+                                return "Your shopping centres became ghost towns as customers abandoned you.";
+                        }
+                    }
+                }
+                
+                // Check values
+                for (const [value, rating] of Object.entries(this.values)) {
+                    if (rating <= 0) {
+                        switch(value) {
+                            case 'respect':
+                                return "Your company's toxic culture led to a catastrophic talent exodus.";
+                            case 'integrity':
+                                return "Your company's unethical practices resulted in criminal charges.";
+                            case 'collaboration':
+                                return "Your siloed organization collapsed under its inability to coordinate.";
+                            case 'customerFocus':
+                                return "Your company's disregard for customers led to a complete market rejection.";
+                            case 'excellence':
+                                return "Your company's substandard practices led to critical failures across operations.";
+                        }
+                    }
+                }
+                
+                // Check factions
+                for (const [faction, rating] of Object.entries(this.factions)) {
+                    if (rating <= 0) {
+                        switch(faction) {
+                            case 'banks':
+                                return "The banks called in their loans, forcing your company into receivership.";
+                            case 'coOwners':
+                                return "Your joint venture partners sued for breach of contract, destroying the company.";
+                            case 'regulators':
+                                return "Regulatory bodies suspended your operating licenses indefinitely.";
+                            case 'government':
+                                return "Government intervention blocked all your development plans.";
+                            case 'securityHolders':
+                                return "A shareholder revolt ousted you from leadership.";
+                        }
+                    }
+                }
+                
+                return "Your company failed due to mismanagement.";
+            }
+
+            // Save game state
+            save() {
+                const saveData = {
+                    metrics: this.metrics,
+                    values: this.values,
+                    factions: this.factions,
+                    year: this.year,
+                    scenariosHandled: this.scenariosHandled,
+                    activeBonuses: this.activeBonuses,
+                    flags: this.flags,
+                    stats: this.stats
+                };
+                
+                localStorage.setItem('executiveDecisionSave', JSON.stringify(saveData));
+                return true;
+            }
+
+            // Load game state
+            load() {
+                const saveData = localStorage.getItem('executiveDecisionSave');
+                if (!saveData) return false;
+                
+                const parsedData = JSON.parse(saveData);
+                
+                this.metrics = parsedData.metrics;
+                this.values = parsedData.values;
+                this.factions = parsedData.factions;
+                this.year = parsedData.year;
+                this.scenariosHandled = parsedData.scenariosHandled;
+                this.activeBonuses = parsedData.activeBonuses;
+                this.flags = parsedData.flags;
+                this.stats = parsedData.stats;
+                
+                return true;
+            }
+
+            // Get a serializable copy of the game state
+            getState() {
+                return {
+                    metrics: {...this.metrics},
+                    values: {...this.values},
+                    factions: {...this.factions},
+                    year: this.year,
+                    scenariosHandled: this.scenariosHandled,
+                    activeBonuses: [...this.activeBonuses],
+                    flags: {...this.flags},
+                    stats: JSON.parse(JSON.stringify(this.stats))
+                };
+            }
+        }
+
+        class ScenarioManager {
+            constructor(gameState) {
+                this.gameState = gameState;
+                this.scenarios = [];
+                this.usedScenarios = new Set();
+            }
+
+            // Set available scenarios
+            setScenarios(scenarios) {
+                this.scenarios = scenarios;
+            }
+
+            // Get the next scenario based on conditions
+            getNextScenario() {
+                // Filter scenarios based on conditions
+                const eligibleScenarios = this.scenarios.filter(scenario => {
+                    // Skip used scenarios unless they're repeatable
+                    if (this.usedScenarios.has(scenario.id) && !scenario.repeatable) {
+                        return false;
+                    }
+                    
+                    // Check conditions
+                    if (scenario.conditions) {
+                        // Check year range
+                        if (scenario.conditions.minYear && this.gameState.year < scenario.conditions.minYear) {
+                            return false;
+                        }
+                        if (scenario.conditions.maxYear && this.gameState.year > scenario.conditions.maxYear) {
+                            return false;
+                        }
+                        
+                        // Check required flags
+                        if (scenario.conditions.requiredFlags) {
+                            for (const flag of scenario.conditions.requiredFlags) {
+                                if (!this.gameState.flags[flag]) {
+                                    return false;
+                                }
+                            }
+                        }
+                        
+                        // Check excluded flags
+                        if (scenario.conditions.excludedFlags) {
+                            for (const flag of scenario.conditions.excludedFlags) {
+                                if (this.gameState.flags[flag]) {
+                                    return false;
+                                }
+                            }
+                        }
+                        
+                        // Check metric ranges
+                        if (scenario.conditions.metrics) {
+                            for (const [metric, range] of Object.entries(scenario.conditions.metrics)) {
+                                const mappedMetric = this.gameState.mapMetricName(metric);
+                                const value = this.gameState.metrics[mappedMetric];
+                                if (range.min !== undefined && value < range.min) {
+                                    return false;
+                                }
+                                if (range.max !== undefined && value > range.max) {
+                                    return false;
+                                }
+                            }
+                        }
+                        
+                        // Check value ranges
+                        if (scenario.conditions.values) {
+                            for (const [value, range] of Object.entries(scenario.conditions.values)) {
+                                const mappedValue = this.gameState.mapValueName(value);
+                                const rating = this.gameState.values[mappedValue];
+                                if (range.min !== undefined && rating < range.min) {
+                                    return false;
+                                }
+                                if (range.max !== undefined && rating > range.max) {
+                                    return false;
+                                }
+                            }
+                        }
+                        
+                        // Check faction ranges
+                        if (scenario.conditions.factions) {
+                            for (const [faction, range] of Object.entries(scenario.conditions.factions)) {
+                                const mappedFaction = this.gameState.mapFactionName(faction);
+                                const rating = this.gameState.factions[mappedFaction];
+                                if (range.min !== undefined && rating < range.min) {
+                                    return false;
+                                }
+                                if (range.max !== undefined && rating > range.max) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Scenario is eligible
+                    return true;
+                });
+                
+                // If no eligible scenarios, use a default one
+                if (eligibleScenarios.length === 0) {
+                    return this.getDefaultScenario();
+                }
+                
+                // Apply priority and weights to select scenario
+                let totalWeight = 0;
+                const weightedScenarios = eligibleScenarios.map(scenario => {
+                    const priority = scenario.priority || 1;
+                    const weight = scenario.weight || 1;
+                    const effectiveWeight = weight * priority;
+                    totalWeight += effectiveWeight;
+                    return {
+                        scenario,
+                        weight: effectiveWeight
+                    };
+                });
+                
+                // Select scenario based on weights
+                let random = Math.random() * totalWeight;
+                let selectedScenario = null;
+                
+                for (const { scenario, weight } of weightedScenarios) {
+                    random -= weight;
+                    if (random <= 0) {
+                        selectedScenario = scenario;
+                        break;
+                    }
+                }
+                
+                // If something went wrong, use the first eligible scenario
+                if (!selectedScenario) {
+                    selectedScenario = eligibleScenarios[0];
+                }
+                
+                // Mark scenario as used
+                this.usedScenarios.add(selectedScenario.id);
+                
+                return selectedScenario;
+            }
+
+            // Get a default/fallback scenario
+            getDefaultScenario() {
+                // Create a simple default scenario
+                return {
+                    id: "default_scenario",
+                    title: "Daily Operations",
+                    description: "Another day managing Pretty Close Centres. What will you focus on today?",
+                    image: "office.jpg",
+                    choices: [
+                        {
+                            text: "Focus on financial performance",
+                            outcome: {
+                                metrics: { revenue: 3, employee_engagement: -1 },
+                                values: { excellence: 2, customer_focus: -1 }
+                            }
+                        },
+                        {
+                            text: "Focus on employee welfare",
+                            outcome: {
+                                metrics: { revenue: -1, employee_engagement: 3 },
+                                values: { respect: 2, excellence: -1 }
+                            }
+                        },
+                        {
+                            text: "Focus on customer experience",
+                            outcome: {
+                                metrics: { revenue: 1, customer_satisfaction: 3 },
+                                values: { customer_focus: 2, collaboration: 1 }
+                            }
+                        }
+                    ]
+                };
+            }
+
+            // Reset used scenarios (e.g., on year change)
+            resetUsedScenarios() {
+                this.usedScenarios.clear();
+            }
+        }
+
+        class Game {
+            constructor() {
+                this.gameState = new GameState();
+                this.scenarioManager = new ScenarioManager(this.gameState);
+                this.currentScenario = null;
+                this.isRunning = false;
+                
+                // UI elements
+                this.elements = {
+                    screens: {
+                        start: document.getElementById('start-screen'),
+                        game: document.getElementById('game-screen'),
+                        gameOver: document.getElementById('game-over-screen')
+                    },
+                    metrics: {
+                        revenue: {
+                            meter: document.querySelector('#revenue .meter'),
+                            value: document.querySelector('#revenue .metric-value')
+                        },
+                        employeeEngagement: {
+                            meter: document.querySelector('#employee-engagement .meter'),
+                            value: document.querySelector('#employee-engagement .metric-value')
+                        },
+                        customerSatisfaction: {
+                            meter: document.querySelector('#customer-satisfaction .meter'),
+                            value: document.querySelector('#customer-satisfaction .metric-value')
+                        }
+                    },
+                    values: {
+                        respect: {
+                            meter: document.querySelector('#respect .meter'),
+                            value: document.querySelector('#respect .metric-value')
+                        },
+                        integrity: {
+                            meter: document.querySelector('#integrity .meter'),
+                            value: document.querySelector('#integrity .metric-value')
+                        },
+                        collaboration: {
+                            meter: document.querySelector('#collaboration .meter'),
+                            value: document.querySelector('#collaboration .metric-value')
+                        },
+                        customerFocus: {
+                            meter: document.querySelector('#customer-focus .meter'),
+                            value: document.querySelector('#customer-focus .metric-value')
+                        },
+                        excellence: {
+                            meter: document.querySelector('#excellence .meter'),
+                            value: document.querySelector('#excellence .metric-value')
+                        }
+                    },
+                    factions: {
+                        banks: {
+                            meter: document.querySelector('#banks .meter'),
+                            value: document.querySelector('#banks .metric-value')
+                        },
+                        coOwners: {
+                            meter: document.querySelector('#co-owners .meter'),
+                            value: document.querySelector('#co-owners .metric-value')
+                        },
+                        regulators: {
+                            meter: document.querySelector('#regulators .meter'),
+                            value: document.querySelector('#regulators .metric-value')
+                        },
+                        government: {
+                            meter: document.querySelector('#government .meter'),
+                            value: document.querySelector('#government .metric-value')
+                        },
+                        securityHolders: {
+                            meter: document.querySelector('#security-holders .meter'),
+                            value: document.querySelector('#security-holders .metric-value')
+                        }
+                    },
+                    scenario: {
+                        title: document.getElementById('scenario-title'),
+                        description: document.getElementById('scenario-description'),
+                        image: document.getElementById('scenario-image'),
+                        choicesContainer: document.getElementById('choices-container')
+                    },
+                    yearDisplay: document.getElementById('year'),
+                    overlays: {
+                        menu: document.getElementById('menu-overlay'),
+                        stats: document.getElementById('stats-overlay'),
+                        bonuses: document.getElementById('bonuses-overlay'),
+                        scenarioPacks: document.getElementById('scenario-packs-overlay'),
+                        feedback: document.getElementById('feedback-overlay')
+                    },
+                    gameOver: {
+                        reason: document.getElementById('game-over-reason'),
+                        stats: document.getElementById('final-stats-content'),
+                        yearsSurvived: document.getElementById('years-survived')
+                    },
+                    notification: document.getElementById('notification'),
+                    notificationMessage: document.getElementById('notification-message')
+                };
+                
+                this.setupEventListeners();
+            }
+
+            // Initialize the game
+            async init() {
+                try {
+                    // Load extension scenarios first
+                    await this.loadScenarioExtensions();
+                    
+                    // Load base scenarios (now will incorporate extensions)
+                    await this.loadScenarios();
+                    
+                    // Load any additional game resources
+                    await this.loadExtras();
+                    
+                    // Setup event listeners
+                    this.setupEventListeners();
+                    
+                    // Show start screen
+                    this.showScreen('start');
+                } catch (error) {
+                    console.error('Game initialization error:', error);
+                    this.showNotification('Failed to initialize game. Please refresh the page.');
+                }
+            }
+
+            // Helper method to load extension files from a list
+            async loadExtensionFiles(fileList) {
+                const loadPromises = fileList.map(file => {
+                    return new Promise((resolve) => {
+                        const script = document.createElement('script');
+                        script.src = file;
+                        
+                        script.onload = () => {
+                            console.log(`Successfully loaded scenario extension: ${file}`);
+                            resolve(true);
+                        };
+                        
+                        script.onerror = () => {
+                            console.warn(`Failed to load scenario extension: ${file}`);
+                            resolve(false);
+                        };
+                        
+                        document.head.appendChild(script);
+                    });
+                });
+                
+                await Promise.all(loadPromises);
+            }
+
+            // Helper method to try loading extensions by common naming patterns
+            async loadExtensionsByPattern() {
+                // Try these common extension names
+                const extensionPatterns = [
+                    'scenarios-expansion.js',
+                    'scenarios-corporate.js',
+                    'scenarios-crisis.js',
+                    'scenarios-custom.js'
+                ];
+                
+                await this.loadExtensionFiles(extensionPatterns);
+            }
+
+            // Load scenario extensions
+            async loadScenarioExtensions() {
+                // Create a global container for extension registrations if it doesn't exist
+                if (!window.gameScenarioExtensions) {
+                    window.gameScenarioExtensions = [];
+                }
+                
+                // Look for an extensions manifest file first
+                try {
+                    const manifestScript = document.createElement('script');
+                    manifestScript.src = 'scenario-extensions.manifest.js';
+                    
+                    await new Promise((resolve, reject) => {
+                        manifestScript.onload = resolve;
+                        manifestScript.onerror = reject;
+                        document.head.appendChild(manifestScript);
+                    });
+                    
+                    // If manifest is loaded, it should have populated window.scenarioExtensionsList
+                    if (window.scenarioExtensionsList && Array.isArray(window.scenarioExtensionsList)) {
+                        console.log('Loading extensions from manifest:', window.scenarioExtensionsList);
+                        await this.loadExtensionFiles(window.scenarioExtensionsList);
+                    }
+                } catch (e) {
+                    console.log('No extension manifest found, looking for extension files with naming pattern');
+                    // Fall back to trying common extension patterns
+                    await this.loadExtensionsByPattern();
+                }
+            }
+
+            // Load scenarios from external files
+            async loadScenarios() {
+                try {
+                    // Initialize array for all scenarios
+                    let allScenarios = [];
+                    
+                    // First load base scenarios from scenarios.js
+                    if (window.gameScenarios) {
+                        allScenarios = [...window.gameScenarios];
+                        console.log(`Loaded ${allScenarios.length} base scenarios`);
+                    } else {
+                        console.warn('Failed to load scenarios.js, using fallback scenarios');
+                        // Use existing fallback scenarios
+                        allScenarios = this.getFallbackScenarios();
+                    }
+                    
+                    // Then incorporate any extension scenarios that have been registered
+                    if (window.gameScenarioExtensions && window.gameScenarioExtensions.length > 0) {
+                        console.log(`Found ${window.gameScenarioExtensions.length} scenario extensions`);
+                        for (const extension of window.gameScenarioExtensions) {
+                            console.log(`Loading scenario extension: ${extension.name} (${extension.scenarios.length} scenarios)`);
+                            allScenarios = [...allScenarios, ...extension.scenarios];
+                        }
+                    }
+                    
+                    // Set the combined scenarios
+                    this.scenarioManager.setScenarios(allScenarios);
+                    console.log(`Total scenarios loaded: ${allScenarios.length}`);
+                    
+                } catch (error) {
+                    console.error('Error loading scenarios:', error);
+                    throw error;
+                }
+            }
+
+            // Move fallback scenarios to a separate method for clarity
+            getFallbackScenarios() {
+                return [
+                    {
+                        id: "new_shopping_centre",
+                        title: "New Shopping Centre Development",
+                        description: "You have an opportunity to develop a new shopping centre in a growing suburb.",
+                        image: "construction.jpg",
+                        choices: [
+                            {
+                                text: "Focus on premium retailers for higher margins",
+                                outcome: {
+                                    metrics: { revenue: 5, customer_satisfaction: -2 },
+                                    values: { excellence: 3, customer_focus: -1 },
+                                    factions: { security_holders: 3, co_owners: 2 }
+                                }
+                            },
+                            {
+                                text: "Create a balanced mix of retailers",
+                                outcome: {
+                                    metrics: { revenue: 3, customer_satisfaction: 3 },
+                                    values: { collaboration: 2, customer_focus: 2 },
+                                    factions: { co_owners: 3, regulators: 1 }
+                                }
+                            },
+                            {
+                                text: "Prioritize community needs with affordable options",
+                                outcome: {
+                                    metrics: { revenue: 1, customer_satisfaction: 5 },
+                                    values: { respect: 3, integrity: 2 },
+                                    factions: { government: 3, regulators: 2, security_holders: -1 }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        id: "employee_feedback",
+                        title: "Employee Feedback Initiative",
+                        description: "HR has proposed a new feedback system for employees to voice concerns anonymously.",
+                        image: "office.jpg",
+                        choices: [
+                            {
+                                text: "Implement the system fully",
+                                outcome: {
+                                    metrics: { employee_engagement: 5, revenue: -1 },
+                                    values: { respect: 3, integrity: 3, collaboration: 2 }
+                                }
+                            },
+                            {
+                                text: "Implement a limited version with oversight",
+                                outcome: {
+                                    metrics: { employee_engagement: 2 },
+                                    values: { respect: 1, collaboration: 1 }
+                                }
+                            },
+                            {
+                                text: "Reject the proposal as unnecessary",
+                                outcome: {
+                                    metrics: { employee_engagement: -3, revenue: 1 },
+                                    values: { respect: -2, integrity: -1, collaboration: -2 }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        id: "regulatory_compliance",
+                        title: "Regulatory Compliance Update",
+                        description: "New environmental regulations will require significant updates to your properties.",
+                        image: "regulation.jpg",
+                        choices: [
+                            {
+                                text: "Exceed compliance requirements",
+                                outcome: {
+                                    metrics: { revenue: -3 },
+                                    values: { integrity: 3, excellence: 2 },
+                                    factions: { regulators: 5, government: 3, banks: -1 }
+                                }
+                            },
+                            {
+                                text: "Meet minimum requirements efficiently",
+                                outcome: {
+                                    metrics: { revenue: -1 },
+                                    values: { integrity: 1 },
+                                    factions: { regulators: 2, government: 1 }
+                                }
+                            },
+                            {
+                                text: "Lobby for deadline extensions",
+                                outcome: {
+                                    metrics: { revenue: 2 },
+                                    values: { integrity: -2 },
+                                    factions: { regulators: -3, government: -2, security_holders: 1 }
+                                }
+                            }
+                        ]
+                    }
+                ];
+            }
+
+            // Load extra features
+            async loadExtras() {
+                try {
+                    // Check if the extras script is available
+                    if (window.gameBonuses) {
+                        // Initialize bonuses
+                        this.bonuses = window.gameBonuses;
+                    } else {
+                        // Create fallback bonuses
+                        this.bonuses = {
+                            revenue_max: {
+                                name: "Financial Excellence",
+                                description: "Your strong financial performance attracts better financing terms.",
+                                effect: "Reduced impact from negative revenue events."
+                            },
+                            employeeEngagement_max: {
+                                name: "Employer of Choice",
+                                description: "Your company is recognized as a top workplace.",
+                                effect: "Employee engagement drops more slowly over time."
+                            },
+                            customerSatisfaction_max: {
+                                name: "Customer Champion",
+                                description: "Your centers are beloved by shoppers.",
+                                effect: "Customer satisfaction provides revenue bonuses."
+                            }
+                        };
+                    }
+                } catch (error) {
+                    console.error('Error loading extras:', error);
+                    // Continue without extras
+                    this.bonuses = {};
+                }
+            }
+
+            // Setup event listeners
+            setupEventListeners() {
+                // Start button
+                document.getElementById('start-button').addEventListener('click', () => {
+                    this.start();
+                });
+                
+                // Load button
+                document.getElementById('load-button').addEventListener('click', () => {
+                    this.loadGame();
+                });
+                
+                // Restart button
+                document.getElementById('restart-button').addEventListener('click', () => {
+                    this.start();
+                });
+                
+                // Main menu button
+                document.getElementById('main-menu-button').addEventListener('click', () => {
+                    this.showScreen('start');
+                });
+                
+                // Menu button
+                document.getElementById('menu-button').addEventListener('click', () => {
+                    this.toggleOverlay('menu');
+                });
+                
+                // Close menu button
+                document.getElementById('close-menu-button').addEventListener('click', () => {
+                    this.hideOverlay('menu');
+                });
+                
+                // Save game button
+                document.getElementById('save-game-button').addEventListener('click', () => {
+                    this.saveGame();
+                    this.hideOverlay('menu');
+                });
+                
+                // Menu load button
+                document.getElementById('menu-load-button').addEventListener('click', () => {
+                    this.loadGame();
+                    this.hideOverlay('menu');
+                });
+                
+                // View stats button
+                document.getElementById('view-stats-button').addEventListener('click', () => {
+                    this.showStats();
+                    this.hideOverlay('menu');
+                });
+                
+                // View bonuses button
+                document.getElementById('view-bonuses-button').addEventListener('click', () => {
+                    this.showBonuses();
+                    this.hideOverlay('menu');
+                });
+                
+                // View scenario packs button
+                document.getElementById('view-scenario-packs-button').addEventListener('click', () => {
+                    this.showScenarioPacks();
+                    this.hideOverlay('menu');
+                });
+                
+                // Close stats button
+                document.getElementById('close-stats-button').addEventListener('click', () => {
+                    this.hideOverlay('stats');
+                });
+                
+                // Close bonuses button
+                document.getElementById('close-bonuses-button').addEventListener('click', () => {
+                    this.hideOverlay('bonuses');
+                });
+                
+                // Close scenario packs button
+                document.getElementById('close-scenario-packs-button').addEventListener('click', () => {
+                    this.hideOverlay('scenarioPacks');
+                });
+                
+                // Quit button
+                document.getElementById('quit-button').addEventListener('click', () => {
+                    this.quit();
+                });
+                
+                // Continue button (after feedback)
+                document.getElementById('continue-button').addEventListener('click', () => {
+                    this.hideOverlay('feedback');
+                    this.nextScenario();
+                });
+                
+                // Collapsible sections
+                document.querySelectorAll('.metric-group h3').forEach(header => {
+                    header.addEventListener('click', () => {
+                        const group = header.parentElement;
+                        group.classList.toggle('collapsed');
+                    });
+                });
+            }
+
+            // Start a new game
+            start() {
+                this.gameState = new GameState();
+                this.scenarioManager = new ScenarioManager(this.gameState);
+                
+                // Load all scenarios including extensions
+                let allScenarios = [];
+                
+                // Add base scenarios
+                if (window.gameScenarios) {
+                    allScenarios = [...window.gameScenarios];
+                }
+                
+                // Add extension scenarios
+                if (window.gameScenarioExtensions) {
+                    for (const extension of window.gameScenarioExtensions) {
+                        allScenarios = [...allScenarios, ...extension.scenarios];
+                    }
+                }
+                
+                // If no scenarios, use fallbacks
+                if (allScenarios.length === 0) {
+                    allScenarios = this.getFallbackScenarios();
+                }
+                
+                this.scenarioManager.setScenarios(allScenarios);
+                this.isRunning = true;
+                
+                this.showScreen('game');
+                this.updateUI();
+                this.nextScenario();
+            }
+
+            // Load a saved game
+            loadGame() {
+                if (this.gameState.load()) {
+                    this.scenarioManager = new ScenarioManager(this.gameState);
+                    
+                    // Load all scenarios including extensions
+                    let allScenarios = [];
+                    
+                    // Add base scenarios
+                    if (window.gameScenarios) {
+                        allScenarios = [...window.gameScenarios];
+                    }
+                    
+                    // Add extension scenarios
+                    if (window.gameScenarioExtensions) {
+                        for (const extension of window.gameScenarioExtensions) {
+                            allScenarios = [...allScenarios, ...extension.scenarios];
+                        }
+                    }
+                    
+                    // If no scenarios, use fallbacks
+                    if (allScenarios.length === 0) {
+                        allScenarios = this.getFallbackScenarios();
+                    }
+                    
+                    this.scenarioManager.setScenarios(allScenarios);
+                    this.isRunning = true;
+                    
+                    this.showScreen('game');
+                    this.updateUI();
+                    this.nextScenario();
+                    
+                    this.showNotification('Game loaded successfully!');
+                } else {
+                    this.showNotification('No saved game found.');
+                }
+            }
+
+            // Save the current game
+            saveGame() {
+                if (this.gameState.save()) {
+                    this.showNotification('Game saved successfully!');
+                    return true;
+                } else {
+                    this.showNotification('Failed to save game.');
+                    return false;
+                }
+            }
+
+            // Quit to main menu
+            quit() {
+                this.isRunning = false;
+                this.hideOverlay('menu');
+                this.showScreen('start');
+            }
+
+            // Show stats overlay
+            showStats() {
+                const statsElement = document.getElementById('stats-content');
+                statsElement.innerHTML = this.generateStatsHTML();
+                this.showOverlay('stats');
+            }
+
+            // Generate HTML for stats display
+            generateStatsHTML() {
+                const { metrics, values, factions, year, activeBonuses, stats } = this.gameState.getState();
+                
+                return `
+                    <div class="stats-section">
+                        <h3>Company Year: ${year}</h3>
+                        <h4>Core Business Metrics</h4>
+                        <ul>
+                            <li>Revenue: ${metrics.revenue}</li>
+                            <li>Employee Engagement: ${metrics.employeeEngagement}</li>
+                            <li>Customer Satisfaction: ${metrics.customerSatisfaction}</li>
+                        </ul>
+                        
+                        <h4>Corporate Values</h4>
+                        <ul>
+                            <li>Respect: ${values.respect}</li>
+                            <li>Integrity: ${values.integrity}</li>
+                            <li>Collaboration: ${values.collaboration}</li>
+                            <li>Customer Focus: ${values.customerFocus}</li>
+                            <li>Excellence: ${values.excellence}</li>
+                        </ul>
+                        
+                        <h4>Faction Relationships</h4>
+                        <ul>
+                            <li>Banks: ${factions.banks}</li>
+                            <li>Co-owners: ${factions.coOwners}</li>
+                            <li>Regulators: ${factions.regulators}</li>
+                            <li>Government: ${factions.government}</li>
+                            <li>Security Holders: ${factions.securityHolders}</li>
+                        </ul>
+                        
+                        <h4>Active Bonuses</h4>
+                        <ul>
+                            ${activeBonuses.length > 0 
+                                ? activeBonuses.map(bonus => `<li>${this.getBonusName(bonus)}</li>`).join('')
+                                : '<li>No active bonuses</li>'
+                            }
+                        </ul>
+                        
+                        <h4>Decisions Made</h4>
+                        <ul>
+                            ${Object.entries(stats.decisionsPerYear).map(([year, count]) => 
+                                `<li>Year ${year}: ${count} decisions</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Show bonuses overlay
+            showBonuses() {
+                const bonusesElement = document.getElementById('bonuses-content');
+                bonusesElement.innerHTML = this.generateBonusesHTML();
+                this.showOverlay('bonuses');
+            }
+
+            // Generate HTML for bonuses display
+            generateBonusesHTML() {
+                const { activeBonuses } = this.gameState;
+                let bonusesHTML = '<div class="bonuses-list">';
+                
+                // Active bonuses
+                bonusesHTML += '<h3>Active Bonuses</h3>';
+                if (activeBonuses.length > 0) {
+                    bonusesHTML += '<ul>';
+                    for (const bonusId of activeBonuses) {
+                        const bonus = this.getBonusDetails(bonusId);
+                        bonusesHTML += `
+                            <li class="bonus active-bonus">
+                                <h4>${bonus.name}</h4>
+                                <p>${bonus.description}</p>
+                                <p><strong>Effect:</strong> ${bonus.effect}</p>
+                            </li>
+                        `;
+                    }
+                    bonusesHTML += '</ul>';
+                } else {
+                    bonusesHTML += '<p>No active bonuses yet. Reach 100 in any metric to unlock bonuses!</p>';
+                }
+                
+                // Available bonuses
+                bonusesHTML += '<h3>Available Bonuses</h3><ul>';
+                
+                // Create categories
+                const categories = {
+                    'Core Metrics': ['revenue_max', 'employeeEngagement_max', 'customerSatisfaction_max'],
+                    'Corporate Values': ['respect_max', 'integrity_max', 'collaboration_max', 'customerFocus_max', 'excellence_max'],
+                    'Faction Relationships': ['banks_max', 'coOwners_max', 'regulators_max', 'government_max', 'securityHolders_max']
+                };
+                
+                for (const [category, bonusIds] of Object.entries(categories)) {
+                    bonusesHTML += `<h4>${category}</h4>`;
+                    
+                    for (const bonusId of bonusIds) {
+                        const bonus = this.getBonusDetails(bonusId);
+                        const isActive = activeBonuses.includes(bonusId);
+                        
+                        bonusesHTML += `
+                            <li class="bonus ${isActive ? 'active-bonus' : 'inactive-bonus'}">
+                                <h4>${bonus.name}</h4>
+                                <p>${bonus.description}</p>
+                                <p><strong>Effect:</strong> ${bonus.effect}</p>
+                                ${isActive ? '<span class="bonus-active-tag">ACTIVE</span>' : ''}
+                            </li>
+                        `;
+                    }
+                }
+                
+                bonusesHTML += '</ul></div>';
+                return bonusesHTML;
+            }
+
+            // Show scenario packs overlay
+            showScenarioPacks() {
+                const packsElement = document.getElementById('scenario-packs-content');
+                packsElement.innerHTML = this.generateScenarioPacksHTML();
+                this.showOverlay('scenarioPacks');
+            }
+
+            // Generate HTML for scenario packs display
+            generateScenarioPacksHTML() {
+                let packsHTML = '<div class="scenario-packs-list">';
+                
+                // Base scenarios
+                packsHTML += `
+                    <div class="scenario-pack">
+                        <h3>Base Scenarios</h3>
+                        <p>The core scenarios included with Executive Decision.</p>
+                        <p><strong>Status:</strong> ${window.gameScenarios ? 'Loaded' : 'Not Loaded'}</p>
+                        ${window.gameScenarios ? `<p><strong>Scenarios:</strong> ${window.gameScenarios.length}</p>` : ''}
+                    </div>
+                `;
+                
+                // Extension packs
+                if (window.gameScenarioExtensions && window.gameScenarioExtensions.length > 0) {
+                    packsHTML += '<h3>Extension Packs</h3>';
+                    
+                    for (const extension of window.gameScenarioExtensions) {
+                        packsHTML += `
+                            <div class="scenario-pack extension-pack">
+                                <h4>${extension.name}</h4>
+                                <p>${extension.description || 'No description available.'}</p>
+                                <p><strong>ID:</strong> ${extension.id}</p>
+                                <p><strong>Scenarios:</strong> ${extension.scenarios.length}</p>
+                                ${extension.version ? `<p><strong>Version:</strong> ${extension.version}</p>` : ''}
+                                ${extension.author ? `<p><strong>Author:</strong> ${extension.author}</p>` : ''}
+                            </div>
+                        `;
+                    }
+                } else {
+                    packsHTML += `
+                        <h3>Extension Packs</h3>
+                        <p>No extension packs loaded.</p>
+                        <p>To add more scenarios, place scenario extension files in the same directory as the game and refresh the page.</p>
+                        <p><em>Tip: Name your extension files starting with "scenarios-" (e.g., scenarios-custom.js) or add them to scenario-extensions.manifest.js</em></p>
+                    `;
+                }
+                
+                packsHTML += '</div>';
+                return packsHTML;
+            }
+
+            // Get bonus name (with fallback)
+            getBonusName(bonusId) {
+                const bonus = this.getBonusDetails(bonusId);
+                return bonus ? bonus.name : bonusId;
+            }
+
+            // Get bonus details (with fallback)
+            getBonusDetails(bonusId) {
+                if (this.bonuses && this.bonuses[bonusId]) {
+                    return this.bonuses[bonusId];
+                }
+                
+                // Fallback values for bonuses
+                const fallbackBonuses = {
+                    // Core metrics
+                    revenue_max: {
+                        name: "Financial Excellence",
+                        description: "Your strong financial performance attracts better financing terms.",
+                        effect: "Reduced impact from negative revenue events."
+                    },
+                    employeeEngagement_max: {
+                        name: "Employer of Choice",
+                        description: "Your company is recognized as a top workplace.",
+                        effect: "Employee engagement drops more slowly over time."
+                    },
+                    customerSatisfaction_max: {
+                        name: "Customer Champion",
+                        description: "Your centers are beloved by shoppers.",
+                        effect: "Customer satisfaction provides revenue bonuses."
+                    },
+                    
+                    // Values
+                    respect_max: {
+                        name: "Respectful Workplace",
+                        description: "Your company is known for its respectful treatment of all stakeholders.",
+                        effect: "Improved employee engagement growth."
+                    },
+                    integrity_max: {
+                        name: "Beacon of Integrity",
+                        description: "Your company is trusted implicitly by all parties.",
+                        effect: "Regulatory approvals come more easily."
+                    },
+                    collaboration_max: {
+                        name: "Collaborative Excellence",
+                        description: "Your company excels at internal and external collaboration.",
+                        effect: "Better outcomes from joint projects."
+                    },
+                    customerFocus_max: {
+                        name: "Customer Obsessed",
+                        description: "Your company puts customers at the center of every decision.",
+                        effect: "Customer satisfaction grows more quickly."
+                    },
+                    excellence_max: {
+                        name: "Operational Excellence",
+                        description: "Your company is known for excellent execution.",
+                        effect: "Revenue grows more consistently."
+                    },
+                    
+                    // Factions
+                    banks_max: {
+                        name: "Banking Darling",
+                        description: "Banks compete to finance your projects.",
+                        effect: "Reduced costs on financing."
+                    },
+                    coOwners_max: {
+                        name: "Partner of Choice",
+                        description: "Co-owners seek you out for joint ventures.",
+                        effect: "Better terms on joint ventures."
+                    },
+                    regulators_max: {
+                        name: "Regulatory Exemplar",
+                        description: "Regulators use your company as a model for compliance.",
+                        effect: "Faster regulatory approvals."
+                    },
+                    government_max: {
+                        name: "Government Partner",
+                        description: "Government officials trust your company implicitly.",
+                        effect: "Favorable treatment on policy matters."
+                    },
+                    securityHolders_max: {
+                        name: "Shareholder Favorite",
+                        description: "Security holders have complete confidence in management.",
+                        effect: "Lower volatility during market downturns."
+                    }
+                };
+                
+                return fallbackBonuses[bonusId] || {
+                    name: `Bonus: ${bonusId}`,
+                    description: "A special bonus for your company.",
+                    effect: "Provides special benefits."
+                };
+            }
+
+            // Show a specific screen
+            showScreen(screenName) {
+                // Hide all screens
+                for (const [name, element] of Object.entries(this.elements.screens)) {
+                    element.classList.add('hidden');
+                }
+                
+                // Show requested screen
+                this.elements.screens[screenName].classList.remove('hidden');
+            }
+
+            // Show an overlay
+            showOverlay(overlayName) {
+                this.elements.overlays[overlayName].classList.remove('hidden');
+            }
+
+            // Hide an overlay
+            hideOverlay(overlayName) {
+                this.elements.overlays[overlayName].classList.add('hidden');
+            }
+
+            // Toggle an overlay
+            toggleOverlay(overlayName) {
+                this.elements.overlays[overlayName].classList.toggle('hidden');
+            }
+
+            // Show a notification
+            showNotification(message, duration = 3000) {
+                this.elements.notificationMessage.textContent = message;
+                this.elements.notification.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    this.elements.notification.classList.add('hidden');
+                }, duration);
+            }
+
+            // Move to the next scenario
+            nextScenario() {
+                // Check for game over
+                if (this.gameState.isGameOver()) {
+                    this.gameOver();
+                    return;
+                }
+                
+                // Get the next scenario
+                this.currentScenario = this.scenarioManager.getNextScenario();
+                
+                // Update the scenario display
+                this.updateScenarioDisplay();
+                
+                // Update metrics and other UI elements
+                this.updateUI();
+            }
+
+            // Update the scenario display
+            updateScenarioDisplay() {
+                const { title, description, image, choices } = this.currentScenario;
+                
+                // Update text
+                this.elements.scenario.title.textContent = title;
+                this.elements.scenario.description.textContent = description;
+                
+                // Update image if available
+                if (image) {
+                    this.elements.scenario.image.style.backgroundImage = `url('${image}')`;
+                } else {
+                    this.elements.scenario.image.style.backgroundImage = 'url("office.jpg")';
+                }
+                
+                // Generate choice buttons
+                this.elements.scenario.choicesContainer.innerHTML = '';
+                
+                choices.forEach((choice, index) => {
+                    const choiceButton = document.createElement('button');
+                    choiceButton.className = 'choice-button';
+                    choiceButton.textContent = choice.text;
+                    
+                    choiceButton.addEventListener('click', () => {
+                        this.makeChoice(index);
+                    });
+                    
+                    this.elements.scenario.choicesContainer.appendChild(choiceButton);
+                });
+            }
+
+            // Make a choice in the current scenario
+            makeChoice(choiceIndex) {
+                const choice = this.currentScenario.choices[choiceIndex];
+                const effects = this.gameState.applyOutcome(choice.outcome);
+                
+                // Show feedback
+                this.showFeedback(choice, effects);
+                
+                // Update UI
+                this.updateUI();
+                
+                // Check for game over
+                if (this.gameState.isGameOver()) {
+                    // Don't immediately show game over to allow player to see feedback first
+                    // The continue button will trigger gameOver
+                }
+            }
+
+            // Show feedback after making a choice
+            showFeedback(choice, effects) {
+                const feedbackTitle = document.getElementById('feedback-title');
+                const feedbackEffects = document.getElementById('feedback-effects');
+                
+                feedbackTitle.textContent = 'Decision Made: ' + choice.text;
+                
+                let feedbackHTML = '<div class="feedback-effects-container">';
+                
+                // Add explanation text if available
+                if (choice.explanation) {
+                    feedbackHTML += `<p class="feedback-explanation">${choice.explanation}</p>`;
+                }
+                
+                // Add metrics effects
+                if (Object.keys(effects.metrics).length > 0) {
+                    feedbackHTML += '<div class="feedback-section"><h4>Business Impact:</h4><ul>';
+                    
+                    for (const [metric, data] of Object.entries(effects.metrics)) {
+                        const displayMetric = this.getDisplayName(metric);
+                        const changeClass = data.change > 0 ? 'positive' : (data.change < 0 ? 'negative' : 'neutral');
+                        const changeText = data.change > 0 ? `+${data.change}` : data.change;
+                        
+                        feedbackHTML += `
+                            <li class="${changeClass}">
+                                ${displayMetric}: ${changeText} (${data.previous} → ${data.current})
+                            </li>
+                        `;
+                    }
+                    
+                    feedbackHTML += '</ul></div>';
+                }
+                
+                // Add values effects
+                if (Object.keys(effects.values).length > 0) {
+                    feedbackHTML += '<div class="feedback-section"><h4>Values Impact:</h4><ul>';
+                    
+                    for (const [value, data] of Object.entries(effects.values)) {
+                        const displayValue = this.getDisplayName(value);
+                        const changeClass = data.change > 0 ? 'positive' : (data.change < 0 ? 'negative' : 'neutral');
+                        const changeText = data.change > 0 ? `+${data.change}` : data.change;
+                        
+                        feedbackHTML += `
+                            <li class="${changeClass}">
+                                ${displayValue}: ${changeText} (${data.previous} → ${data.current})
+                            </li>
+                        `;
+                    }
+                    
+                    feedbackHTML += '</ul></div>';
+                }
+                
+                // Add factions effects
+                if (Object.keys(effects.factions).length > 0) {
+                    feedbackHTML += '<div class="feedback-section"><h4>Reputation Impact:</h4><ul>';
+                    
+                    for (const [faction, data] of Object.entries(effects.factions)) {
+                        const displayFaction = this.getDisplayName(faction);
+                        const changeClass = data.change > 0 ? 'positive' : (data.change < 0 ? 'negative' : 'neutral');
+                        const changeText = data.change > 0 ? `+${data.change}` : data.change;
+                        
+                        feedbackHTML += `
+                            <li class="${changeClass}">
+                                ${displayFaction}: ${changeText} (${data.previous} → ${data.current})
+                            </li>
+                        `;
+                    }
+                    
+                    feedbackHTML += '</ul></div>';
+                }
+                
+                // Add flags
+                if (effects.flags.length > 0) {
+                    feedbackHTML += '<div class="feedback-section"><h4>New Developments:</h4><ul>';
+                    
+                    for (const flag of effects.flags) {
+                        feedbackHTML += `<li>Flag triggered: ${flag}</li>`;
+                    }
+                    
+                    feedbackHTML += '</ul></div>';
+                }
+                
+                feedbackHTML += '</div>';
+                
+                feedbackEffects.innerHTML = feedbackHTML;
+                
+                this.showOverlay('feedback');
+            }
+
+            // Helper to get display names
+            getDisplayName(key) {
+                const displayNames = {
+                    // Metrics
+                    revenue: 'Revenue',
+                    employeeEngagement: 'Employee Engagement',
+                    customerSatisfaction: 'Customer Satisfaction',
+                    
+                    // Values
+                    respect: 'Respect',
+                    integrity: 'Integrity',
+                    collaboration: 'Collaboration',
+                    customerFocus: 'Customer Focus',
+                    excellence: 'Excellence',
+                    
+                    // Factions
+                    banks: 'Banks',
+                    coOwners: 'Co-owners',
+                    regulators: 'Regulators',
+                    government: 'Government',
+                    securityHolders: 'Security Holders'
+                };
+                
+                return displayNames[key] || key;
+            }
+
+            // Update all UI elements
+            updateUI() {
+                // Update year
+                this.elements.yearDisplay.textContent = this.gameState.year;
+                
+                // Update metrics
+                for (const [metric, value] of Object.entries(this.gameState.metrics)) {
+                    if (this.elements.metrics[metric]) {
+                        this.elements.metrics[metric].meter.style.width = `${value}%`;
+                        this.elements.metrics[metric].value.textContent = value;
+                        
+                        // Color coding
+                        this.setMeterColor(this.elements.metrics[metric].meter, value);
+                    }
+                }
+                
+                // Update values
+                for (const [value, rating] of Object.entries(this.gameState.values)) {
+                    if (this.elements.values[value]) {
+                        this.elements.values[value].meter.style.width = `${rating}%`;
+                        this.elements.values[value].value.textContent = rating;
+                        
+                        // Color coding
+                        this.setMeterColor(this.elements.values[value].meter, rating);
+                    }
+                }
+                
+                // Update factions
+                for (const [faction, rating] of Object.entries(this.gameState.factions)) {
+                    if (this.elements.factions[faction]) {
+                        this.elements.factions[faction].meter.style.width = `${rating}%`;
+                        this.elements.factions[faction].value.textContent = rating;
+                        
+                        // Color coding
+                        this.setMeterColor(this.elements.factions[faction].meter, rating);
+                    }
+                }
+            }
+
+            // Set meter color based on value
+            setMeterColor(meterElement, value) {
+                if (value <= 20) {
+                    meterElement.className = 'meter critical';
+                } else if (value <= 40) {
+                    meterElement.className = 'meter poor';
+                } else if (value <= 60) {
+                    meterElement.className = 'meter average';
+                } else if (value <= 80) {
+                    meterElement.className = 'meter good';
+                } else {
+                    meterElement.className = 'meter excellent';
+                }
+            }
+
+            // Game over
+            gameOver() {
+                this.isRunning = false;
+                
+                // Get reason for game over
+                const reason = this.gameState.getGameOverReason();
+                
+                // Update game over screen
+                this.elements.gameOver.reason.textContent = reason;
+                this.elements.gameOver.yearsSurvived.textContent = this.gameState.year;
+                
+                // Generate final stats
+                this.elements.gameOver.stats.innerHTML = this.generateStatsHTML();
+                
+                // Show game over screen
+                this.showScreen('gameOver');
+            }
+        }
+
+        // Initialize game when document is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            window.game = new Game();
+            window.game.init();
+        });
+    </script>
+    
+    <script src="scenarios.js"></script>
+    <script src="extras.js" onerror="console.warn('Extras not loaded')"></script>
+</body>
+</html>
