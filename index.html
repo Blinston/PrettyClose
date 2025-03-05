@@ -16,14 +16,15 @@
             <button id="start-button" class="primary-button">Start New Game</button>
             <button id="load-button" class="secondary-button">Load Game</button>
             <div class="footer">
-                <p>A corporate decision-making game inspired by Reigns</p>
+                <p>A corporate decision-making game</p>
             </div>
         </div>
 
         <div id="game-screen" class="screen hidden">
             <div id="header">
-                <div id="year-display">Year: <span id="year">1</span></div>
+                <div id="year-display">Year: <span id="year">1</span> Week: <span id="week">1</span>/52</div>
                 <div id="company-name">Pretty Close Centres</div>
+                <div id="money-display">$<span id="money-value">10000000</span></div>
                 <div id="menu-button">≡</div>
             </div>
 
@@ -138,10 +139,27 @@
                     <div id="scenario-content">
                         <h3 id="scenario-title">Scenario Title</h3>
                         <p id="scenario-description">Scenario description goes here...</p>
+                        <div id="scenario-money-cost" class="hidden">
+                            <p><strong>Cost: $<span id="money-cost-value">0</span></strong></p>
+                        </div>
                     </div>
                 </div>
                 <div id="choices-container">
                     <!-- Choices will be generated dynamically -->
+                </div>
+            </div>
+
+            <div id="news-feed-container">
+                <div id="news-feed-header">
+                    <h3>News Feed</h3>
+                    <button id="news-feed-toggle">▲</button>
+                </div>
+                <div id="news-feed-content">
+                    <!-- News feed entries will be added here -->
+                    <div class="news-entry welcome-entry">
+                        <span class="news-date">Year 1, Week 1</span>
+                        <p>Welcome to Pretty Close Centres. Your decisions will shape the future of the company.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -167,6 +185,7 @@
                 <button id="menu-load-button" class="menu-button">Load Game</button>
                 <button id="view-stats-button" class="menu-button">View Stats</button>
                 <button id="view-bonuses-button" class="menu-button">View Bonuses</button>
+                <button id="view-flags-button" class="menu-button">View Active Flags</button>
                 <button id="view-scenario-packs-button" class="menu-button">View Scenario Packs</button>
                 <button id="close-menu-button" class="menu-button">Close Menu</button>
                 <button id="quit-button" class="menu-button danger">Quit to Main Menu</button>
@@ -191,6 +210,16 @@
             </div>
         </div>
 
+        <div id="flags-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Active Company Status</h2>
+                <div id="flags-content">
+                    <p>Loading flags...</p>
+                </div>
+                <button id="close-flags-button" class="menu-button">Close</button>
+            </div>
+        </div>
+
         <div id="scenario-packs-overlay" class="overlay hidden">
             <div class="overlay-content">
                 <h2>Scenario Packs</h2>
@@ -201,11 +230,37 @@
             </div>
         </div>
 
-        <div id="feedback-overlay" class="overlay hidden">
-            <div class="overlay-content feedback-content">
-                <h3 id="feedback-title">Decision Made</h3>
-                <div id="feedback-effects"></div>
-                <button id="continue-button" class="primary-button">Continue</button>
+        <div id="year-report-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Annual Report - Year <span id="annual-report-year">1</span></h2>
+                <div id="annual-report-content">
+                    <!-- Annual report content will be generated dynamically -->
+                </div>
+                <div id="distribution-decision" class="hidden">
+                    <h3>Security Holder Distribution</h3>
+                    <p>Choose how much to distribute to security holders:</p>
+                    <div id="distribution-options">
+                        <!-- Distribution options will be generated dynamically -->
+                    </div>
+                </div>
+                <button id="continue-year-button" class="primary-button">Continue to Next Year</button>
+            </div>
+        </div>
+
+        <div id="money-crisis-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Financial Crisis</h2>
+                <p>Your company has run out of money. You must take immediate action:</p>
+                <div id="money-crisis-options">
+                    <button id="raise-debt-button" class="menu-button">Raise Debt</button>
+                    <p class="option-description">Significantly impact your standing with Banks and reduce financial performance due to interest burden.</p>
+                    
+                    <button id="raise-equity-button" class="menu-button">Raise Equity</button>
+                    <p class="option-description">Impact depends on your standing with security holders and will negatively affect your reputation.</p>
+                    
+                    <button id="sell-assets-button" class="menu-button">Sell Assets</button>
+                    <p class="option-description">Significantly reduce future financial performance by removing revenue streams.</p>
+                </div>
             </div>
         </div>
 
@@ -245,28 +300,65 @@
 
                 // Game progression
                 this.year = 1;
+                this.week = 1;
                 this.scenariosHandled = 0;
                 this.activeBonuses = [];
 
-                // Game state flags
+                // Money (in millions)
+                this.money = 10000000; // $10 million start
+
+                // Game state flags (human readable phrases)
                 this.flags = {};
+                
+                // Map of opposite/mutually exclusive flags
+                this.oppositeFlags = {
+                    "The company has a conservative risk appetite.": "The company has an aggressive risk appetite.",
+                    "The company has an aggressive risk appetite.": "The company has a conservative risk appetite.",
+                    "The company prioritizes financial performance.": "The company prioritizes social impact.",
+                    "The company prioritizes social impact.": "The company prioritizes financial performance.",
+                    "The company has become purpose driven.": "The company is shareholder focused.",
+                    "The company is shareholder focused.": "The company has become purpose driven.",
+                    // Add more opposite pairs as needed
+                };
+                
+                // News feed entries
+                this.newsFeed = [{
+                    year: 1,
+                    week: 1,
+                    title: "First Day at Pretty Close Centres",
+                    description: "You've begun your role as an executive at Pretty Close Centres, an ASX-listed company specializing in shopping centers.",
+                    impacts: []
+                }];
                 
                 // Statistics
                 this.stats = {
                     decisionsPerYear: {},
                     metricHistory: {},
-                    flagsTriggered: []
+                    flagsTriggered: [],
+                    moneyHistory: {},
+                    yearEvents: []
                 };
             }
 
             // Apply scenario outcome effects
-            applyOutcome(outcome) {
+            applyOutcome(outcome, choiceText, scenarioTitle) {
                 let effects = {
                     metrics: {},
                     values: {},
                     factions: {},
-                    flags: []
+                    flags: [],
+                    money: 0
                 };
+
+                let impactDescriptions = [];
+
+                // Apply money cost if present
+                if (outcome.moneyCost) {
+                    const cost = outcome.moneyCost;
+                    this.money -= cost;
+                    effects.money = -cost;
+                    impactDescriptions.push(`Spent $${this.formatMoney(cost)}`);
+                }
 
                 // Apply effects to metrics
                 if (outcome.metrics) {
@@ -274,12 +366,36 @@
                         const mappedMetric = this.mapMetricName(metric);
                         if (this.metrics.hasOwnProperty(mappedMetric)) {
                             const originalValue = this.metrics[mappedMetric];
-                            this.metrics[mappedMetric] = Math.max(0, Math.min(100, this.metrics[mappedMetric] + change));
+                            
+                            // Check for very impactful scenario (double or halve)
+                            let actualChange = change;
+                            if (outcome.veryImpactful) {
+                                if (change > 0) {
+                                    // Double the metric (max 100)
+                                    actualChange = originalValue;
+                                    this.metrics[mappedMetric] = Math.min(100, originalValue * 2);
+                                } else if (change < 0) {
+                                    // Halve the metric (rounded up)
+                                    actualChange = -Math.ceil(originalValue / 2);
+                                    this.metrics[mappedMetric] = Math.ceil(originalValue / 2);
+                                }
+                            } else {
+                                // Normal impact
+                                this.metrics[mappedMetric] = Math.max(0, Math.min(100, originalValue + actualChange));
+                            }
+                            
                             effects.metrics[mappedMetric] = {
                                 previous: originalValue,
-                                change: change,
+                                change: actualChange,
                                 current: this.metrics[mappedMetric]
                             };
+                            
+                            // Add to impact descriptions
+                            const displayMetric = this.getDisplayName(mappedMetric);
+                            if (actualChange !== 0) {
+                                const direction = actualChange > 0 ? "increased" : "decreased";
+                                impactDescriptions.push(`${displayMetric} ${direction} by ${Math.abs(actualChange)} points`);
+                            }
                         }
                     }
                 }
@@ -290,12 +406,42 @@
                         const mappedValue = this.mapValueName(value);
                         if (this.values.hasOwnProperty(mappedValue)) {
                             const originalValue = this.values[mappedValue];
-                            this.values[mappedValue] = Math.max(0, Math.min(100, this.values[mappedValue] + change));
+                            
+                            // Check for very impactful scenario
+                            let actualChange = change;
+                            if (outcome.veryImpactful) {
+                                if (change > 0) {
+                                    // Double the value (max 100)
+                                    actualChange = originalValue;
+                                    this.values[mappedValue] = Math.min(100, originalValue * 2);
+                                } else if (change < 0) {
+                                    // Halve the value (rounded up)
+                                    actualChange = -Math.ceil(originalValue / 2);
+                                    this.values[mappedValue] = Math.ceil(originalValue / 2);
+                                }
+                            } else {
+                                // Normal impact
+                                this.values[mappedValue] = Math.max(0, Math.min(100, originalValue + actualChange));
+                            }
+                            
                             effects.values[mappedValue] = {
                                 previous: originalValue,
-                                change: change,
+                                change: actualChange,
                                 current: this.values[mappedValue]
                             };
+                            
+                            // Add to impact descriptions
+                            const displayValue = this.getDisplayName(mappedValue);
+                            if (actualChange !== 0) {
+                                const direction = actualChange > 0 ? "strengthened" : "weakened";
+                                impactDescriptions.push(`${displayValue} value ${direction} by ${Math.abs(actualChange)} points`);
+                                
+                                // Check for strong alignment or misalignment with values
+                                if (Math.abs(actualChange) >= 3) {
+                                    const alignment = actualChange > 0 ? "strongly aligned with" : "contradicted";
+                                    impactDescriptions.push(`This decision ${alignment} our ${displayValue} value`);
+                                }
+                            }
                         }
                     }
                 }
@@ -306,12 +452,36 @@
                         const mappedFaction = this.mapFactionName(faction);
                         if (this.factions.hasOwnProperty(mappedFaction)) {
                             const originalValue = this.factions[mappedFaction];
-                            this.factions[mappedFaction] = Math.max(0, Math.min(100, this.factions[mappedFaction] + change));
+                            
+                            // Check for very impactful scenario
+                            let actualChange = change;
+                            if (outcome.veryImpactful) {
+                                if (change > 0) {
+                                    // Double the faction (max 100)
+                                    actualChange = originalValue;
+                                    this.factions[mappedFaction] = Math.min(100, originalValue * 2);
+                                } else if (change < 0) {
+                                    // Halve the faction (rounded up)
+                                    actualChange = -Math.ceil(originalValue / 2);
+                                    this.factions[mappedFaction] = Math.ceil(originalValue / 2);
+                                }
+                            } else {
+                                // Normal impact
+                                this.factions[mappedFaction] = Math.max(0, Math.min(100, originalValue + actualChange));
+                            }
+                            
                             effects.factions[mappedFaction] = {
                                 previous: originalValue,
-                                change: change,
+                                change: actualChange,
                                 current: this.factions[mappedFaction]
                             };
+                            
+                            // Add to impact descriptions
+                            const displayFaction = this.getDisplayName(mappedFaction);
+                            if (actualChange !== 0) {
+                                const direction = actualChange > 0 ? "improved" : "deteriorated";
+                                impactDescriptions.push(`Relationship with ${displayFaction} ${direction} by ${Math.abs(actualChange)} points`);
+                            }
                         }
                     }
                 }
@@ -319,23 +489,44 @@
                 // Set flags
                 if (outcome.flags) {
                     for (const flag of outcome.flags) {
-                        this.flags[flag] = true;
+                        // Add flag and handle opposites
+                        this.setFlag(flag);
                         effects.flags.push(flag);
+                        
+                        // Add to descriptions
+                        impactDescriptions.push(flag);
+                        
                         if (!this.stats.flagsTriggered.includes(flag)) {
                             this.stats.flagsTriggered.push(flag);
                         }
                     }
                 }
 
+                // Calculate money earned based on revenue and other factors
+                if (this.week % 13 === 0) { // Quarterly financial update
+                    const baseEarnings = (this.metrics.revenue / 100) * 1000000; // Up to $1M per quarter at max revenue
+                    const adjustedEarnings = baseEarnings * 
+                        (0.8 + (this.factions.securityHolders / 500)); // Security holder relationship affects earnings
+                    
+                    this.money += adjustedEarnings;
+                    effects.money = adjustedEarnings;
+                    impactDescriptions.push(`Quarterly earnings: $${this.formatMoney(adjustedEarnings)}`);
+                }
+
+                // Add news feed entry
+                this.addNewsFeedEntry(scenarioTitle, choiceText, impactDescriptions);
+
                 // Track statistics
                 this.scenariosHandled++;
+                this.week++;
+                
                 if (!this.stats.decisionsPerYear[this.year]) {
                     this.stats.decisionsPerYear[this.year] = 0;
                 }
                 this.stats.decisionsPerYear[this.year]++;
 
-                // Check for year advancement (after 5 scenarios)
-                if (this.scenariosHandled % 5 === 0) {
+                // Check for year advancement (after 52 scenarios/weeks)
+                if (this.week > 52) {
                     this.advanceYear();
                 }
 
@@ -343,6 +534,48 @@
                 this.checkForBonuses();
 
                 return effects;
+            }
+
+            // Add entry to news feed
+            addNewsFeedEntry(title, decision, impacts) {
+                const entry = {
+                    year: this.year,
+                    week: this.week,
+                    title: title,
+                    decision: decision,
+                    impacts: impacts,
+                    timestamp: new Date()
+                };
+                
+                this.newsFeed.unshift(entry); // Add to beginning for reverse chronological order
+                
+                // Limit feed length to prevent excessive memory use
+                if (this.newsFeed.length > 200) {
+                    this.newsFeed = this.newsFeed.slice(0, 200);
+                }
+                
+                return entry;
+            }
+            
+            // Set a flag and handle opposites
+            setFlag(flag) {
+                this.flags[flag] = true;
+                
+                // Check for opposite flags
+                if (this.oppositeFlags[flag] && this.flags[this.oppositeFlags[flag]]) {
+                    delete this.flags[this.oppositeFlags[flag]];
+                }
+            }
+
+            // Format money values
+            formatMoney(amount) {
+                if (Math.abs(amount) >= 1000000) {
+                    return (amount / 1000000).toFixed(2) + 'M';
+                } else if (Math.abs(amount) >= 1000) {
+                    return (amount / 1000).toFixed(2) + 'K';
+                } else {
+                    return amount.toFixed(2);
+                }
             }
 
             // Helper method to map metric names from scenarios to property names
@@ -379,42 +612,84 @@
                 return factionMap[factionName] || factionName;
             }
 
+            // Get display names for metrics, values, factions
+            getDisplayName(key) {
+                const displayNames = {
+                    // Metrics
+                    revenue: 'Revenue',
+                    employeeEngagement: 'Employee Engagement',
+                    customerSatisfaction: 'Customer Satisfaction',
+                    
+                    // Values
+                    respect: 'Respect',
+                    integrity: 'Integrity',
+                    collaboration: 'Collaboration',
+                    customerFocus: 'Customer Focus',
+                    excellence: 'Excellence',
+                    
+                    // Factions
+                    banks: 'Banks',
+                    coOwners: 'Co-owners',
+                    regulators: 'Regulators',
+                    government: 'Government',
+                    securityHolders: 'Security Holders'
+                };
+                
+                return displayNames[key] || key;
+            }
+
             // Advance to the next year
             advanceYear() {
-                this.year++;
-                // Save current metrics to history
-                this.recordMetricHistory();
+                // Get year-end snapshot before advancing
+                const yearEndSnapshot = {
+                    year: this.year,
+                    metrics: {...this.metrics},
+                    values: {...this.values},
+                    factions: {...this.factions},
+                    money: this.money,
+                    flags: {...this.flags}
+                };
                 
-                // Trigger year transition events or bonuses
-                this.applyYearlyEffects();
+                // Save current metrics to history
+                this.recordMetricHistory(yearEndSnapshot);
+                
+                // Reset week counter
+                this.week = 1;
+                
+                // Advance year
+                this.year++;
+                
+                // Add year transition news entry
+                this.addNewsFeedEntry(
+                    "Annual Report", 
+                    `Year ${this.year-1} has concluded`,
+                    [`Starting Year ${this.year}`]
+                );
+                
+                // Return the year-end snapshot for the annual report
+                return yearEndSnapshot;
             }
 
             // Record metric history for charts/statistics
-            recordMetricHistory() {
-                if (!this.stats.metricHistory[this.year - 1]) {
-                    this.stats.metricHistory[this.year - 1] = {
-                        metrics: {...this.metrics},
-                        values: {...this.values},
-                        factions: {...this.factions}
-                    };
-                }
-            }
-
-            // Apply yearly effects (could be adjusted for difficulty)
-            applyYearlyEffects() {
-                // For example, slight decline in some metrics to create natural challenge
-                this.metrics.revenue = Math.max(0, this.metrics.revenue - 2);
-                this.metrics.employeeEngagement = Math.max(0, this.metrics.employeeEngagement - 1);
-                // More effects could be added here
+            recordMetricHistory(yearEndSnapshot) {
+                this.stats.metricHistory[this.year] = {
+                    metrics: {...this.metrics},
+                    values: {...this.values},
+                    factions: {...this.factions}
+                };
+                
+                this.stats.moneyHistory[this.year] = this.money;
             }
 
             // Check for any bonuses from maxed metrics/values
             checkForBonuses() {
+                let newBonuses = [];
+                
                 // Check core metrics
                 for (const [metric, value] of Object.entries(this.metrics)) {
                     if (value >= 100 && !this.activeBonuses.includes(`${metric}_max`)) {
                         this.activeBonuses.push(`${metric}_max`);
-                        // Apply bonus effects here
+                        newBonuses.push(`${metric}_max`);
                     }
                 }
                 
@@ -422,7 +697,7 @@
                 for (const [value, rating] of Object.entries(this.values)) {
                     if (rating >= 100 && !this.activeBonuses.includes(`${value}_max`)) {
                         this.activeBonuses.push(`${value}_max`);
-                        // Apply bonus effects here
+                        newBonuses.push(`${value}_max`);
                     }
                 }
                 
@@ -430,9 +705,168 @@
                 for (const [faction, rating] of Object.entries(this.factions)) {
                     if (rating >= 100 && !this.activeBonuses.includes(`${faction}_max`)) {
                         this.activeBonuses.push(`${faction}_max`);
-                        // Apply bonus effects here
+                        newBonuses.push(`${faction}_max`);
                     }
                 }
+                
+                return newBonuses;
+            }
+
+            // Handle security holder distribution decision
+            makeDistribution(amount) {
+                if (amount > this.money) {
+                    return {success: false, message: "Insufficient funds for this distribution."};
+                }
+                
+                this.money -= amount;
+                
+                // Calculate impact on security holder reputation
+                let reputationChange = 0;
+                const expectedDistribution = (this.metrics.revenue / 100) * 2000000; // Scale with revenue
+                
+                if (amount >= expectedDistribution * 1.2) {
+                    // Generous distribution
+                    reputationChange = 5;
+                } else if (amount >= expectedDistribution * 0.8) {
+                    // Expected range
+                    reputationChange = 3;
+                } else if (amount >= expectedDistribution * 0.5) {
+                    // Below expectations
+                    reputationChange = -1;
+                } else {
+                    // Significantly below expectations
+                    reputationChange = -3;
+                }
+                
+                // Apply reputation change
+                this.factions.securityHolders = Math.max(0, Math.min(100, this.factions.securityHolders + reputationChange));
+                
+                // Add to news feed
+                this.addNewsFeedEntry(
+                    "Security Holder Distribution",
+                    `Distributed $${this.formatMoney(amount)} to security holders`,
+                    [
+                        `Security Holder reputation ${reputationChange >= 0 ? 'increased' : 'decreased'} by ${Math.abs(reputationChange)} points`
+                    ]
+                );
+                
+                return {
+                    success: true, 
+                    message: `Successfully distributed $${this.formatMoney(amount)} to security holders.`,
+                    reputationChange: reputationChange
+                };
+            }
+
+            // Handle financial crisis options
+            handleFinancialCrisis(option) {
+                const result = {
+                    success: true,
+                    effects: {
+                        metrics: {},
+                        factions: {},
+                        money: 0
+                    },
+                    message: ""
+                };
+                
+                switch(option) {
+                    case "debt":
+                        // Raise debt
+                        const debtAmount = 10000000; // $10M
+                        this.money += debtAmount;
+                        result.effects.money = debtAmount;
+                        
+                        // Impact on Banks and financial performance
+                        const originalBanks = this.factions.banks;
+                        const originalRevenue = this.metrics.revenue;
+                        
+                        this.factions.banks = Math.max(0, this.factions.banks - 15);
+                        this.metrics.revenue = Math.max(0, this.metrics.revenue - 10);
+                        
+                        result.effects.factions.banks = {
+                            previous: originalBanks,
+                            change: -15,
+                            current: this.factions.banks
+                        };
+                        
+                        result.effects.metrics.revenue = {
+                            previous: originalRevenue,
+                            change: -10,
+                            current: this.metrics.revenue
+                        };
+                        
+                        result.message = "Raised $10M in debt. Relationship with Banks has suffered significantly and interest payments will reduce financial performance.";
+                        
+                        // Set debt flag
+                        this.setFlag("The company is carrying significant debt.");
+                        break;
+                        
+                    case "equity":
+                        // Raise equity
+                        const equityAmount = 15000000; // $15M
+                        this.money += equityAmount;
+                        result.effects.money = equityAmount;
+                        
+                        // Impact depends on security holder reputation
+                        const reputationImpact = this.factions.securityHolders > 70 ? -5 : 
+                                               (this.factions.securityHolders > 40 ? -10 : -20);
+                        
+                        const originalSecurityHolders = this.factions.securityHolders;
+                        this.factions.securityHolders = Math.max(0, this.factions.securityHolders + reputationImpact);
+                        
+                        result.effects.factions.securityHolders = {
+                            previous: originalSecurityHolders,
+                            change: reputationImpact,
+                            current: this.factions.securityHolders
+                        };
+                        
+                        result.message = `Raised $15M through equity issuance. Security Holder reputation ${reputationImpact >= 0 ? 'increased' : 'decreased'} by ${Math.abs(reputationImpact)} points.`;
+                        
+                        // Set equity dilution flag
+                        this.setFlag("The company has recently diluted equity.");
+                        break;
+                        
+                    case "assets":
+                        // Sell assets
+                        const assetSaleAmount = 20000000; // $20M
+                        this.money += assetSaleAmount;
+                        result.effects.money = assetSaleAmount;
+                        
+                        // Significant impact on future revenue
+                        const originalRevenue2 = this.metrics.revenue;
+                        this.metrics.revenue = Math.max(0, this.metrics.revenue - 25);
+                        
+                        result.effects.metrics.revenue = {
+                            previous: originalRevenue2,
+                            change: -25,
+                            current: this.metrics.revenue
+                        };
+                        
+                        result.message = "Sold key assets for $20M. Future financial performance will be significantly reduced due to lost revenue streams.";
+                        
+                        // Set asset sale flag
+                        this.setFlag("The company has sold off key assets.");
+                        break;
+                }
+                
+                // Add to news feed
+                this.addNewsFeedEntry(
+                    "Financial Crisis Response",
+                    result.message,
+                    Object.entries(result.effects.metrics).map(([metric, data]) => {
+                        const displayMetric = this.getDisplayName(metric);
+                        const direction = data.change > 0 ? "increased" : "decreased";
+                        return `${displayMetric} ${direction} by ${Math.abs(data.change)} points`;
+                    }).concat(
+                        Object.entries(result.effects.factions).map(([faction, data]) => {
+                            const displayFaction = this.getDisplayName(faction);
+                            const direction = data.change > 0 ? "improved" : "deteriorated";
+                            return `Relationship with ${displayFaction} ${direction} by ${Math.abs(data.change)} points`;
+                        })
+                    )
+                );
+                
+                return result;
             }
 
             // Check if game over
@@ -517,10 +951,14 @@
                     values: this.values,
                     factions: this.factions,
                     year: this.year,
+                    week: this.week,
                     scenariosHandled: this.scenariosHandled,
                     activeBonuses: this.activeBonuses,
                     flags: this.flags,
-                    stats: this.stats
+                    money: this.money,
+                    newsFeed: this.newsFeed,
+                    stats: this.stats,
+                    oppositeFlags: this.oppositeFlags
                 };
                 
                 localStorage.setItem('executiveDecisionSave', JSON.stringify(saveData));
@@ -538,10 +976,14 @@
                 this.values = parsedData.values;
                 this.factions = parsedData.factions;
                 this.year = parsedData.year;
+                this.week = parsedData.week;
                 this.scenariosHandled = parsedData.scenariosHandled;
                 this.activeBonuses = parsedData.activeBonuses;
                 this.flags = parsedData.flags;
+                this.money = parsedData.money;
+                this.newsFeed = parsedData.newsFeed;
                 this.stats = parsedData.stats;
+                this.oppositeFlags = parsedData.oppositeFlags;
                 
                 return true;
             }
@@ -553,9 +995,12 @@
                     values: {...this.values},
                     factions: {...this.factions},
                     year: this.year,
+                    week: this.week,
                     scenariosHandled: this.scenariosHandled,
                     activeBonuses: [...this.activeBonuses],
                     flags: {...this.flags},
+                    money: this.money,
+                    newsFeed: [...this.newsFeed],
                     stats: JSON.parse(JSON.stringify(this.stats))
                 };
             }
@@ -566,15 +1011,74 @@
                 this.gameState = gameState;
                 this.scenarios = [];
                 this.usedScenarios = new Set();
+                this.startingScenario = null;
             }
 
             // Set available scenarios
             setScenarios(scenarios) {
                 this.scenarios = scenarios;
+                
+                // Look for and set aside the starting scenario
+                const startingIndex = this.scenarios.findIndex(scenario => scenario.id === "starting_scenario");
+                if (startingIndex !== -1) {
+                    this.startingScenario = this.scenarios.splice(startingIndex, 1)[0];
+                }
+            }
+
+            // Get the first scenario (special starting scenario)
+            getStartingScenario() {
+                if (this.startingScenario) {
+                    return this.startingScenario;
+                }
+                
+                // If no dedicated starting scenario exists, create one
+                return {
+                    id: "default_starting_scenario",
+                    title: "Your First Day as Executive",
+                    description: "As you settle into your new office at Pretty Close Centres, the board has asked you to establish your strategic priorities for the coming years. Your initial direction will set the tone for your leadership.",
+                    image: "office.jpg",
+                    choices: [
+                        {
+                            text: "Focus on financial growth and shareholder returns",
+                            explanation: "You pledge to prioritize revenue growth and returns to shareholders above all else.",
+                            outcome: {
+                                metrics: { revenue: 10, employee_engagement: 3, customer_satisfaction: -5 },
+                                values: { excellence: 5, customer_focus: -3, integrity: -2 },
+                                factions: { security_holders: 10, banks: 8, regulators: -5 },
+                                flags: ["The company prioritizes financial performance.", "The company is shareholder focused."]
+                            }
+                        },
+                        {
+                            text: "Build a balanced business with strong stakeholder relationships",
+                            explanation: "You commit to a balanced approach that considers all stakeholders in your decision making.",
+                            outcome: {
+                                metrics: { revenue: 5, employee_engagement: 5, customer_satisfaction: 5 },
+                                values: { respect: 5, integrity: 5, collaboration: 5, customer_focus: 5, excellence: 5 },
+                                factions: { security_holders: 5, co_owners: 5, regulators: 5, government: 5, banks: 5 },
+                                flags: ["The company takes a balanced approach to stakeholders."]
+                            }
+                        },
+                        {
+                            text: "Establish a purpose-driven organization focused on community impact",
+                            explanation: "You declare that Pretty Close Centres will measure success by its positive impact on communities and society.",
+                            outcome: {
+                                metrics: { revenue: -5, employee_engagement: 10, customer_satisfaction: 10 },
+                                values: { respect: 8, integrity: 8, customer_focus: 7, collaboration: 5, excellence: 2 },
+                                factions: { government: 10, regulators: 7, co_owners: 5, security_holders: -8 },
+                                flags: ["The company has become purpose driven.", "The company prioritizes social impact."]
+                            }
+                        }
+                    ]
+                };
             }
 
             // Get the next scenario based on conditions
             getNextScenario() {
+                // Special case: if this is the first scenario, return the starting scenario
+                if (this.gameState.scenariosHandled === 0) {
+                    return this.getStartingScenario();
+                }
+                
                 // Filter scenarios based on conditions
                 const eligibleScenarios = this.scenarios.filter(scenario => {
                     // Skip used scenarios unless they're repeatable
@@ -589,6 +1093,14 @@
                             return false;
                         }
                         if (scenario.conditions.maxYear && this.gameState.year > scenario.conditions.maxYear) {
+                            return false;
+                        }
+                        
+                        // Check week range
+                        if (scenario.conditions.minWeek && this.gameState.week < scenario.conditions.minWeek) {
+                            return false;
+                        }
+                        if (scenario.conditions.maxWeek && this.gameState.week > scenario.conditions.maxWeek) {
                             return false;
                         }
                         
@@ -649,6 +1161,17 @@
                                 if (range.max !== undefined && rating > range.max) {
                                     return false;
                                 }
+                            }
+                        }
+                        
+                        // Check money range
+                        if (scenario.conditions.money) {
+                            const money = this.gameState.money;
+                            if (scenario.conditions.money.min !== undefined && money < scenario.conditions.money.min) {
+                                return false;
+                            }
+                            if (scenario.conditions.money.max !== undefined && money > scenario.conditions.money.max) {
+                                return false;
                             }
                         }
                     }
@@ -744,6 +1267,8 @@
                 this.scenarioManager = new ScenarioManager(this.gameState);
                 this.currentScenario = null;
                 this.isRunning = false;
+                this.awaitingYearEnd = false;
+                this.awaitingMoneyCrisis = false;
                 
                 // UI elements
                 this.elements = {
@@ -814,15 +1339,32 @@
                         title: document.getElementById('scenario-title'),
                         description: document.getElementById('scenario-description'),
                         image: document.getElementById('scenario-image'),
+                        moneyCost: document.getElementById('scenario-money-cost'),
+                        moneyCostValue: document.getElementById('money-cost-value'),
                         choicesContainer: document.getElementById('choices-container')
                     },
                     yearDisplay: document.getElementById('year'),
+                    weekDisplay: document.getElementById('week'),
+                    moneyValue: document.getElementById('money-value'),
+                    newsFeed: {
+                        container: document.getElementById('news-feed-container'),
+                        content: document.getElementById('news-feed-content'),
+                        toggle: document.getElementById('news-feed-toggle')
+                    },
                     overlays: {
                         menu: document.getElementById('menu-overlay'),
                         stats: document.getElementById('stats-overlay'),
                         bonuses: document.getElementById('bonuses-overlay'),
+                        flags: document.getElementById('flags-overlay'),
                         scenarioPacks: document.getElementById('scenario-packs-overlay'),
-                        feedback: document.getElementById('feedback-overlay')
+                        yearReport: document.getElementById('year-report-overlay'),
+                        moneyCrisis: document.getElementById('money-crisis-overlay')
+                    },
+                    yearReport: {
+                        year: document.getElementById('annual-report-year'),
+                        content: document.getElementById('annual-report-content'),
+                        distributionSection: document.getElementById('distribution-decision'),
+                        distributionOptions: document.getElementById('distribution-options')
                     },
                     gameOver: {
                         reason: document.getElementById('game-over-reason'),
@@ -951,6 +1493,9 @@
                         }
                     }
                     
+                    // Add starting scenario
+                    allScenarios.push(this.getStartingScenario());
+                    
                     // Set the combined scenarios
                     this.scenarioManager.setScenarios(allScenarios);
                     console.log(`Total scenarios loaded: ${allScenarios.length}`);
@@ -959,6 +1504,48 @@
                     console.error('Error loading scenarios:', error);
                     throw error;
                 }
+            }
+
+            // Get the starting scenario
+            getStartingScenario() {
+                return {
+                    id: "starting_scenario",
+                    title: "Your First Day as Executive",
+                    description: "As you settle into your new office at Pretty Close Centres, the board has asked you to establish your strategic priorities for the coming years. Your initial direction will set the tone for your leadership.",
+                    image: "office.jpg",
+                    choices: [
+                        {
+                            text: "Focus on financial growth and shareholder returns",
+                            explanation: "You pledge to prioritize revenue growth and returns to shareholders above all else.",
+                            outcome: {
+                                metrics: { revenue: 10, employee_engagement: 3, customer_satisfaction: -5 },
+                                values: { excellence: 5, customer_focus: -3, integrity: -2 },
+                                factions: { security_holders: 10, banks: 8, regulators: -5 },
+                                flags: ["The company prioritizes financial performance.", "The company is shareholder focused."]
+                            }
+                        },
+                        {
+                            text: "Build a balanced business with strong stakeholder relationships",
+                            explanation: "You commit to a balanced approach that considers all stakeholders in your decision making.",
+                            outcome: {
+                                metrics: { revenue: 5, employee_engagement: 5, customer_satisfaction: 5 },
+                                values: { respect: 5, integrity: 5, collaboration: 5, customer_focus: 5, excellence: 5 },
+                                factions: { security_holders: 5, co_owners: 5, regulators: 5, government: 5, banks: 5 },
+                                flags: ["The company takes a balanced approach to stakeholders."]
+                            }
+                        },
+                        {
+                            text: "Establish a purpose-driven organization focused on community impact",
+                            explanation: "You declare that Pretty Close Centres will measure success by its positive impact on communities and society.",
+                            outcome: {
+                                metrics: { revenue: -5, employee_engagement: 10, customer_satisfaction: 10 },
+                                values: { respect: 8, integrity: 8, customer_focus: 7, collaboration: 5, excellence: 2 },
+                                factions: { government: 10, regulators: 7, co_owners: 5, security_holders: -8 },
+                                flags: ["The company has become purpose driven.", "The company prioritizes social impact."]
+                            }
+                        }
+                    ]
+                };
             }
 
             // Move fallback scenarios to a separate method for clarity
@@ -975,7 +1562,8 @@
                                 outcome: {
                                     metrics: { revenue: 5, customer_satisfaction: -2 },
                                     values: { excellence: 3, customer_focus: -1 },
-                                    factions: { security_holders: 3, co_owners: 2 }
+                                    factions: { security_holders: 3, co_owners: 2 },
+                                    moneyCost: 5000000
                                 }
                             },
                             {
@@ -983,7 +1571,8 @@
                                 outcome: {
                                     metrics: { revenue: 3, customer_satisfaction: 3 },
                                     values: { collaboration: 2, customer_focus: 2 },
-                                    factions: { co_owners: 3, regulators: 1 }
+                                    factions: { co_owners: 3, regulators: 1 },
+                                    moneyCost: 3500000
                                 }
                             },
                             {
@@ -991,7 +1580,8 @@
                                 outcome: {
                                     metrics: { revenue: 1, customer_satisfaction: 5 },
                                     values: { respect: 3, integrity: 2 },
-                                    factions: { government: 3, regulators: 2, security_holders: -1 }
+                                    factions: { government: 3, regulators: 2, security_holders: -1 },
+                                    moneyCost: 2000000
                                 }
                             }
                         ]
@@ -1006,14 +1596,16 @@
                                 text: "Implement the system fully",
                                 outcome: {
                                     metrics: { employee_engagement: 5, revenue: -1 },
-                                    values: { respect: 3, integrity: 3, collaboration: 2 }
+                                    values: { respect: 3, integrity: 3, collaboration: 2 },
+                                    moneyCost: 500000
                                 }
                             },
                             {
                                 text: "Implement a limited version with oversight",
                                 outcome: {
                                     metrics: { employee_engagement: 2 },
-                                    values: { respect: 1, collaboration: 1 }
+                                    values: { respect: 1, collaboration: 1 },
+                                    moneyCost: 250000
                                 }
                             },
                             {
@@ -1036,7 +1628,8 @@
                                 outcome: {
                                     metrics: { revenue: -3 },
                                     values: { integrity: 3, excellence: 2 },
-                                    factions: { regulators: 5, government: 3, banks: -1 }
+                                    factions: { regulators: 5, government: 3, banks: -1 },
+                                    moneyCost: 2000000
                                 }
                             },
                             {
@@ -1044,7 +1637,8 @@
                                 outcome: {
                                     metrics: { revenue: -1 },
                                     values: { integrity: 1 },
-                                    factions: { regulators: 2, government: 1 }
+                                    factions: { regulators: 2, government: 1 },
+                                    moneyCost: 1000000
                                 }
                             },
                             {
@@ -1052,7 +1646,8 @@
                                 outcome: {
                                     metrics: { revenue: 2 },
                                     values: { integrity: -2 },
-                                    factions: { regulators: -3, government: -2, security_holders: 1 }
+                                    factions: { regulators: -3, government: -2, security_holders: 1 },
+                                    moneyCost: 500000
                                 }
                             }
                         ]
@@ -1150,6 +1745,12 @@
                     this.hideOverlay('menu');
                 });
                 
+                // View flags button
+                document.getElementById('view-flags-button').addEventListener('click', () => {
+                    this.showFlags();
+                    this.hideOverlay('menu');
+                });
+                
                 // View scenario packs button
                 document.getElementById('view-scenario-packs-button').addEventListener('click', () => {
                     this.showScenarioPacks();
@@ -1166,6 +1767,11 @@
                     this.hideOverlay('bonuses');
                 });
                 
+                // Close flags button
+                document.getElementById('close-flags-button').addEventListener('click', () => {
+                    this.hideOverlay('flags');
+                });
+                
                 // Close scenario packs button
                 document.getElementById('close-scenario-packs-button').addEventListener('click', () => {
                     this.hideOverlay('scenarioPacks');
@@ -1176,10 +1782,29 @@
                     this.quit();
                 });
                 
-                // Continue button (after feedback)
-                document.getElementById('continue-button').addEventListener('click', () => {
-                    this.hideOverlay('feedback');
+                // Continue to next year button
+                document.getElementById('continue-year-button').addEventListener('click', () => {
+                    this.hideOverlay('yearReport');
+                    this.awaitingYearEnd = false;
                     this.nextScenario();
+                });
+                
+                // News feed toggle
+                this.elements.newsFeed.toggle.addEventListener('click', () => {
+                    this.toggleNewsFeed();
+                });
+                
+                // Money crisis options
+                document.getElementById('raise-debt-button').addEventListener('click', () => {
+                    this.handleMoneyCrisis('debt');
+                });
+                
+                document.getElementById('raise-equity-button').addEventListener('click', () => {
+                    this.handleMoneyCrisis('equity');
+                });
+                
+                document.getElementById('sell-assets-button').addEventListener('click', () => {
+                    this.handleMoneyCrisis('assets');
                 });
                 
                 // Collapsible sections
@@ -1189,6 +1814,316 @@
                         group.classList.toggle('collapsed');
                     });
                 });
+            }
+
+            // Toggle news feed expanded/collapsed state
+            toggleNewsFeed() {
+                const container = this.elements.newsFeed.container;
+                const toggle = this.elements.newsFeed.toggle;
+                
+                container.classList.toggle('expanded');
+                
+                if (container.classList.contains('expanded')) {
+                    toggle.textContent = '▼';
+                } else {
+                    toggle.textContent = '▲';
+                }
+            }
+
+            // Update the news feed display
+            updateNewsFeed() {
+                const feedContent = this.elements.newsFeed.content;
+                const entries = this.gameState.newsFeed;
+                
+                // Clear existing entries
+                feedContent.innerHTML = '';
+                
+                // Add latest entries
+                entries.slice(0, 20).forEach(entry => {
+                    const entryElement = document.createElement('div');
+                    entryElement.className = 'news-entry';
+                    
+                    const dateElement = document.createElement('span');
+                    dateElement.className = 'news-date';
+                    dateElement.textContent = `Year ${entry.year}, Week ${entry.week}`;
+                    
+                    const titleElement = document.createElement('h4');
+                    titleElement.textContent = entry.title;
+                    
+                    const decisionElement = document.createElement('p');
+                    decisionElement.className = 'news-decision';
+                    decisionElement.textContent = entry.decision || '';
+                    
+                    const impactsContainer = document.createElement('div');
+                    impactsContainer.className = 'news-impacts';
+                    
+                    if (entry.impacts && entry.impacts.length > 0) {
+                        const impactsList = document.createElement('ul');
+                        entry.impacts.forEach(impact => {
+                            const impactItem = document.createElement('li');
+                            impactItem.textContent = impact;
+                            impactsList.appendChild(impactItem);
+                        });
+                        impactsContainer.appendChild(impactsList);
+                    }
+                    
+                    entryElement.appendChild(dateElement);
+                    entryElement.appendChild(titleElement);
+                    if (entry.decision) {
+                        entryElement.appendChild(decisionElement);
+                    }
+                    if (entry.impacts && entry.impacts.length > 0) {
+                        entryElement.appendChild(impactsContainer);
+                    }
+                    
+                    feedContent.appendChild(entryElement);
+                });
+            }
+
+            // Handle money crisis
+            handleMoneyCrisis(option) {
+                const result = this.gameState.handleFinancialCrisis(option);
+                
+                if (result.success) {
+                    this.showNotification(result.message);
+                    this.updateUI();
+                    this.hideOverlay('moneyCrisis');
+                    this.awaitingMoneyCrisis = false;
+                    
+                    // Check if we were also awaiting year end
+                    if (this.awaitingYearEnd) {
+                        this.showYearEndReport();
+                    } else {
+                        this.nextScenario();
+                    }
+                } else {
+                    this.showNotification("Error: " + result.message);
+                }
+            }
+
+            // Show the flags overlay
+            showFlags() {
+                const flagsElement = document.getElementById('flags-content');
+                flagsElement.innerHTML = this.generateFlagsHTML();
+                this.showOverlay('flags');
+            }
+
+            // Generate HTML for flags display
+            generateFlagsHTML() {
+                const flags = this.gameState.flags;
+                let flagsHTML = '<div class="flags-list">';
+                
+                const flagsList = Object.keys(flags);
+                
+                if (flagsList.length > 0) {
+                    flagsHTML += '<ul>';
+                    for (const flag of flagsList) {
+                        flagsHTML += `<li>${flag}</li>`;
+                    }
+                    flagsHTML += '</ul>';
+                } else {
+                    flagsHTML += '<p>No active flags.</p>';
+                }
+                
+                flagsHTML += '</div>';
+                return flagsHTML;
+            }
+
+            // Show year end report
+            showYearEndReport() {
+                const previousYear = this.gameState.year - 1;
+                const yearEndData = this.gameState.stats.metricHistory[previousYear];
+                
+                if (!yearEndData) {
+                    console.error('No year-end data available for year', previousYear);
+                    this.awaitingYearEnd = false;
+                    this.nextScenario();
+                    return;
+                }
+                
+                // Set year in report
+                this.elements.yearReport.year.textContent = previousYear;
+                
+                // Generate report content
+                let reportHTML = '<div class="annual-report">';
+                
+                // Performance summary
+                reportHTML += `<h3>Performance Summary - Year ${previousYear}</h3>`;
+                reportHTML += '<div class="report-section">';
+                
+                // Core metrics
+                reportHTML += '<h4>Core Business Metrics</h4>';
+                reportHTML += '<table class="report-table">';
+                reportHTML += '<tr><th>Metric</th><th>End of Year</th><th>Change</th></tr>';
+                
+                for (const [metric, value] of Object.entries(yearEndData.metrics)) {
+                    const startValue = previousYear === 1 ? 50 : this.gameState.stats.metricHistory[previousYear - 1].metrics[metric];
+                    const change = value - startValue;
+                    const changeClass = change > 0 ? 'positive' : (change < 0 ? 'negative' : 'neutral');
+                    
+                    reportHTML += `
+                        <tr>
+                            <td>${this.gameState.getDisplayName(metric)}</td>
+                            <td>${value.toFixed(1)}</td>
+                            <td class="${changeClass}">${change > 0 ? '+' : ''}${change.toFixed(1)}</td>
+                        </tr>
+                    `;
+                }
+                
+                reportHTML += '</table>';
+                
+                // Corporate values
+                reportHTML += '<h4>Corporate Values</h4>';
+                reportHTML += '<table class="report-table">';
+                reportHTML += '<tr><th>Value</th><th>End of Year</th><th>Change</th></tr>';
+                
+                for (const [value, rating] of Object.entries(yearEndData.values)) {
+                    const startValue = previousYear === 1 ? 50 : this.gameState.stats.metricHistory[previousYear - 1].values[value];
+                    const change = rating - startValue;
+                    const changeClass = change > 0 ? 'positive' : (change < 0 ? 'negative' : 'neutral');
+                    
+                    reportHTML += `
+                        <tr>
+                            <td>${this.gameState.getDisplayName(value)}</td>
+                            <td>${rating.toFixed(1)}</td>
+                            <td class="${changeClass}">${change > 0 ? '+' : ''}${change.toFixed(1)}</td>
+                        </tr>
+                    `;
+                }
+                
+                reportHTML += '</table>';
+                
+                // Faction relationships
+                reportHTML += '<h4>Stakeholder Relationships</h4>';
+                reportHTML += '<table class="report-table">';
+                reportHTML += '<tr><th>Stakeholder</th><th>End of Year</th><th>Change</th></tr>';
+                
+                for (const [faction, rating] of Object.entries(yearEndData.factions)) {
+                    const startValue = previousYear === 1 ? 50 : this.gameState.stats.metricHistory[previousYear - 1].factions[faction];
+                    const change = rating - startValue;
+                    const changeClass = change > 0 ? 'positive' : (change < 0 ? 'negative' : 'neutral');
+                    
+                    reportHTML += `
+                        <tr>
+                            <td>${this.gameState.getDisplayName(faction)}</td>
+                            <td>${rating.toFixed(1)}</td>
+                            <td class="${changeClass}">${change > 0 ? '+' : ''}${change.toFixed(1)}</td>
+                        </tr>
+                    `;
+                }
+                
+                reportHTML += '</table>';
+                
+                // Financial summary
+                const yearEndMoney = this.gameState.stats.moneyHistory[previousYear] || 0;
+                const startMoney = previousYear === 1 ? 10000000 : this.gameState.stats.moneyHistory[previousYear - 1] || 0;
+                const moneyChange = yearEndMoney - startMoney;
+                const moneyChangeClass = moneyChange > 0 ? 'positive' : (moneyChange < 0 ? 'negative' : 'neutral');
+                
+                reportHTML += '<h4>Financial Summary</h4>';
+                reportHTML += `<p>Year-end cash position: $${this.gameState.formatMoney(yearEndMoney)}</p>`;
+                reportHTML += `<p>Cash flow for year: <span class="${moneyChangeClass}">$${moneyChange > 0 ? '+' : ''}${this.gameState.formatMoney(moneyChange)}</span></p>`;
+                
+                reportHTML += '</div>';
+                
+                // Set the report content
+                this.elements.yearReport.content.innerHTML = reportHTML;
+                
+                // Set up the distribution decision
+                this.setupDistributionOptions();
+                
+                // Show the overlay
+                this.showOverlay('yearReport');
+            }
+
+            // Setup distribution options
+            setupDistributionOptions() {
+                const distributionSection = this.elements.yearReport.distributionSection;
+                const optionsContainer = this.elements.yearReport.distributionOptions;
+                
+                // Only show distribution options if we have enough cash
+                if (this.gameState.money < 500000) {
+                    distributionSection.classList.add('hidden');
+                    return;
+                }
+                
+                distributionSection.classList.remove('hidden');
+                
+                // Calculate expected distribution based on revenue
+                const expectedDistribution = (this.gameState.metrics.revenue / 100) * 2000000;
+                const availableMoney = this.gameState.money;
+                
+                // Create options
+                let optionsHTML = '';
+                
+                // Zero option
+                optionsHTML += `
+                    <button class="distribution-option" data-amount="0">
+                        <span class="option-amount">$0</span>
+                        <span class="option-description">No distribution</span>
+                        <span class="option-impact negative">Security holders -3</span>
+                    </button>
+                `;
+                
+                // Low option (if affordable)
+                if (availableMoney >= expectedDistribution * 0.5) {
+                    optionsHTML += `
+                        <button class="distribution-option" data-amount="${Math.floor(expectedDistribution * 0.5)}">
+                            <span class="option-amount">$${this.gameState.formatMoney(expectedDistribution * 0.5)}</span>
+                            <span class="option-description">Below expectations</span>
+                            <span class="option-impact negative">Security holders -1</span>
+                        </button>
+                    `;
+                }
+                
+                // Standard option (if affordable)
+                if (availableMoney >= expectedDistribution) {
+                    optionsHTML += `
+                        <button class="distribution-option" data-amount="${Math.floor(expectedDistribution)}">
+                            <span class="option-amount">$${this.gameState.formatMoney(expectedDistribution)}</span>
+                            <span class="option-description">Meet expectations</span>
+                            <span class="option-impact positive">Security holders +3</span>
+                        </button>
+                    `;
+                }
+                
+                // Generous option (if affordable)
+                if (availableMoney >= expectedDistribution * 1.5) {
+                    optionsHTML += `
+                        <button class="distribution-option" data-amount="${Math.floor(expectedDistribution * 1.5)}">
+                            <span class="option-amount">$${this.gameState.formatMoney(expectedDistribution * 1.5)}</span>
+                            <span class="option-description">Exceed expectations</span>
+                            <span class="option-impact positive">Security holders +5</span>
+                        </button>
+                    `;
+                }
+                
+                optionsContainer.innerHTML = optionsHTML;
+                
+                // Add event listeners to the options
+                document.querySelectorAll('.distribution-option').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const amount = parseInt(button.getAttribute('data-amount'));
+                        this.makeDistribution(amount);
+                    });
+                });
+            }
+
+            // Make a distribution to security holders
+            makeDistribution(amount) {
+                const result = this.gameState.makeDistribution(amount);
+                
+                if (result.success) {
+                    this.showNotification(result.message);
+                    
+                    // Hide the distribution section after decision is made
+                    this.elements.yearReport.distributionSection.classList.add('hidden');
+                    
+                    // Update UI
+                    this.updateUI();
+                } else {
+                    this.showNotification("Error: " + result.message);
+                }
             }
 
             // Start a new game
@@ -1211,6 +2146,9 @@
                     }
                 }
                 
+                // Add starting scenario
+                allScenarios.push(this.getStartingScenario());
+                
                 // If no scenarios, use fallbacks
                 if (allScenarios.length === 0) {
                     allScenarios = this.getFallbackScenarios();
@@ -1218,6 +2156,8 @@
                 
                 this.scenarioManager.setScenarios(allScenarios);
                 this.isRunning = true;
+                this.awaitingYearEnd = false;
+                this.awaitingMoneyCrisis = false;
                 
                 this.showScreen('game');
                 this.updateUI();
@@ -1244,6 +2184,9 @@
                         }
                     }
                     
+                    // Add starting scenario
+                    allScenarios.push(this.getStartingScenario());
+                    
                     // If no scenarios, use fallbacks
                     if (allScenarios.length === 0) {
                         allScenarios = this.getFallbackScenarios();
@@ -1251,6 +2194,8 @@
                     
                     this.scenarioManager.setScenarios(allScenarios);
                     this.isRunning = true;
+                    this.awaitingYearEnd = false;
+                    this.awaitingMoneyCrisis = false;
                     
                     this.showScreen('game');
                     this.updateUI();
@@ -1283,565 +2228,4 @@
             // Show stats overlay
             showStats() {
                 const statsElement = document.getElementById('stats-content');
-                statsElement.innerHTML = this.generateStatsHTML();
-                this.showOverlay('stats');
-            }
-
-            // Generate HTML for stats display
-            generateStatsHTML() {
-                const { metrics, values, factions, year, activeBonuses, stats } = this.gameState.getState();
-                
-                return `
-                    <div class="stats-section">
-                        <h3>Company Year: ${year}</h3>
-                        <h4>Core Business Metrics</h4>
-                        <ul>
-                            <li>Revenue: ${metrics.revenue}</li>
-                            <li>Employee Engagement: ${metrics.employeeEngagement}</li>
-                            <li>Customer Satisfaction: ${metrics.customerSatisfaction}</li>
-                        </ul>
-                        
-                        <h4>Corporate Values</h4>
-                        <ul>
-                            <li>Respect: ${values.respect}</li>
-                            <li>Integrity: ${values.integrity}</li>
-                            <li>Collaboration: ${values.collaboration}</li>
-                            <li>Customer Focus: ${values.customerFocus}</li>
-                            <li>Excellence: ${values.excellence}</li>
-                        </ul>
-                        
-                        <h4>Faction Relationships</h4>
-                        <ul>
-                            <li>Banks: ${factions.banks}</li>
-                            <li>Co-owners: ${factions.coOwners}</li>
-                            <li>Regulators: ${factions.regulators}</li>
-                            <li>Government: ${factions.government}</li>
-                            <li>Security Holders: ${factions.securityHolders}</li>
-                        </ul>
-                        
-                        <h4>Active Bonuses</h4>
-                        <ul>
-                            ${activeBonuses.length > 0 
-                                ? activeBonuses.map(bonus => `<li>${this.getBonusName(bonus)}</li>`).join('')
-                                : '<li>No active bonuses</li>'
-                            }
-                        </ul>
-                        
-                        <h4>Decisions Made</h4>
-                        <ul>
-                            ${Object.entries(stats.decisionsPerYear).map(([year, count]) => 
-                                `<li>Year ${year}: ${count} decisions</li>`
-                            ).join('')}
-                        </ul>
-                    </div>
-                `;
-            }
-
-            // Show bonuses overlay
-            showBonuses() {
-                const bonusesElement = document.getElementById('bonuses-content');
-                bonusesElement.innerHTML = this.generateBonusesHTML();
-                this.showOverlay('bonuses');
-            }
-
-            // Generate HTML for bonuses display
-            generateBonusesHTML() {
-                const { activeBonuses } = this.gameState;
-                let bonusesHTML = '<div class="bonuses-list">';
-                
-                // Active bonuses
-                bonusesHTML += '<h3>Active Bonuses</h3>';
-                if (activeBonuses.length > 0) {
-                    bonusesHTML += '<ul>';
-                    for (const bonusId of activeBonuses) {
-                        const bonus = this.getBonusDetails(bonusId);
-                        bonusesHTML += `
-                            <li class="bonus active-bonus">
-                                <h4>${bonus.name}</h4>
-                                <p>${bonus.description}</p>
-                                <p><strong>Effect:</strong> ${bonus.effect}</p>
-                            </li>
-                        `;
-                    }
-                    bonusesHTML += '</ul>';
-                } else {
-                    bonusesHTML += '<p>No active bonuses yet. Reach 100 in any metric to unlock bonuses!</p>';
-                }
-                
-                // Available bonuses
-                bonusesHTML += '<h3>Available Bonuses</h3><ul>';
-                
-                // Create categories
-                const categories = {
-                    'Core Metrics': ['revenue_max', 'employeeEngagement_max', 'customerSatisfaction_max'],
-                    'Corporate Values': ['respect_max', 'integrity_max', 'collaboration_max', 'customerFocus_max', 'excellence_max'],
-                    'Faction Relationships': ['banks_max', 'coOwners_max', 'regulators_max', 'government_max', 'securityHolders_max']
-                };
-                
-                for (const [category, bonusIds] of Object.entries(categories)) {
-                    bonusesHTML += `<h4>${category}</h4>`;
-                    
-                    for (const bonusId of bonusIds) {
-                        const bonus = this.getBonusDetails(bonusId);
-                        const isActive = activeBonuses.includes(bonusId);
-                        
-                        bonusesHTML += `
-                            <li class="bonus ${isActive ? 'active-bonus' : 'inactive-bonus'}">
-                                <h4>${bonus.name}</h4>
-                                <p>${bonus.description}</p>
-                                <p><strong>Effect:</strong> ${bonus.effect}</p>
-                                ${isActive ? '<span class="bonus-active-tag">ACTIVE</span>' : ''}
-                            </li>
-                        `;
-                    }
-                }
-                
-                bonusesHTML += '</ul></div>';
-                return bonusesHTML;
-            }
-
-            // Show scenario packs overlay
-            showScenarioPacks() {
-                const packsElement = document.getElementById('scenario-packs-content');
-                packsElement.innerHTML = this.generateScenarioPacksHTML();
-                this.showOverlay('scenarioPacks');
-            }
-
-            // Generate HTML for scenario packs display
-            generateScenarioPacksHTML() {
-                let packsHTML = '<div class="scenario-packs-list">';
-                
-                // Base scenarios
-                packsHTML += `
-                    <div class="scenario-pack">
-                        <h3>Base Scenarios</h3>
-                        <p>The core scenarios included with Executive Decision.</p>
-                        <p><strong>Status:</strong> ${window.gameScenarios ? 'Loaded' : 'Not Loaded'}</p>
-                        ${window.gameScenarios ? `<p><strong>Scenarios:</strong> ${window.gameScenarios.length}</p>` : ''}
-                    </div>
-                `;
-                
-                // Extension packs
-                if (window.gameScenarioExtensions && window.gameScenarioExtensions.length > 0) {
-                    packsHTML += '<h3>Extension Packs</h3>';
-                    
-                    for (const extension of window.gameScenarioExtensions) {
-                        packsHTML += `
-                            <div class="scenario-pack extension-pack">
-                                <h4>${extension.name}</h4>
-                                <p>${extension.description || 'No description available.'}</p>
-                                <p><strong>ID:</strong> ${extension.id}</p>
-                                <p><strong>Scenarios:</strong> ${extension.scenarios.length}</p>
-                                ${extension.version ? `<p><strong>Version:</strong> ${extension.version}</p>` : ''}
-                                ${extension.author ? `<p><strong>Author:</strong> ${extension.author}</p>` : ''}
-                            </div>
-                        `;
-                    }
-                } else {
-                    packsHTML += `
-                        <h3>Extension Packs</h3>
-                        <p>No extension packs loaded.</p>
-                        <p>To add more scenarios, place scenario extension files in the same directory as the game and refresh the page.</p>
-                        <p><em>Tip: Name your extension files starting with "scenarios-" (e.g., scenarios-custom.js) or add them to scenario-extensions.manifest.js</em></p>
-                    `;
-                }
-                
-                packsHTML += '</div>';
-                return packsHTML;
-            }
-
-            // Get bonus name (with fallback)
-            getBonusName(bonusId) {
-                const bonus = this.getBonusDetails(bonusId);
-                return bonus ? bonus.name : bonusId;
-            }
-
-            // Get bonus details (with fallback)
-            getBonusDetails(bonusId) {
-                if (this.bonuses && this.bonuses[bonusId]) {
-                    return this.bonuses[bonusId];
-                }
-                
-                // Fallback values for bonuses
-                const fallbackBonuses = {
-                    // Core metrics
-                    revenue_max: {
-                        name: "Financial Excellence",
-                        description: "Your strong financial performance attracts better financing terms.",
-                        effect: "Reduced impact from negative revenue events."
-                    },
-                    employeeEngagement_max: {
-                        name: "Employer of Choice",
-                        description: "Your company is recognized as a top workplace.",
-                        effect: "Employee engagement drops more slowly over time."
-                    },
-                    customerSatisfaction_max: {
-                        name: "Customer Champion",
-                        description: "Your centers are beloved by shoppers.",
-                        effect: "Customer satisfaction provides revenue bonuses."
-                    },
-                    
-                    // Values
-                    respect_max: {
-                        name: "Respectful Workplace",
-                        description: "Your company is known for its respectful treatment of all stakeholders.",
-                        effect: "Improved employee engagement growth."
-                    },
-                    integrity_max: {
-                        name: "Beacon of Integrity",
-                        description: "Your company is trusted implicitly by all parties.",
-                        effect: "Regulatory approvals come more easily."
-                    },
-                    collaboration_max: {
-                        name: "Collaborative Excellence",
-                        description: "Your company excels at internal and external collaboration.",
-                        effect: "Better outcomes from joint projects."
-                    },
-                    customerFocus_max: {
-                        name: "Customer Obsessed",
-                        description: "Your company puts customers at the center of every decision.",
-                        effect: "Customer satisfaction grows more quickly."
-                    },
-                    excellence_max: {
-                        name: "Operational Excellence",
-                        description: "Your company is known for excellent execution.",
-                        effect: "Revenue grows more consistently."
-                    },
-                    
-                    // Factions
-                    banks_max: {
-                        name: "Banking Darling",
-                        description: "Banks compete to finance your projects.",
-                        effect: "Reduced costs on financing."
-                    },
-                    coOwners_max: {
-                        name: "Partner of Choice",
-                        description: "Co-owners seek you out for joint ventures.",
-                        effect: "Better terms on joint ventures."
-                    },
-                    regulators_max: {
-                        name: "Regulatory Exemplar",
-                        description: "Regulators use your company as a model for compliance.",
-                        effect: "Faster regulatory approvals."
-                    },
-                    government_max: {
-                        name: "Government Partner",
-                        description: "Government officials trust your company implicitly.",
-                        effect: "Favorable treatment on policy matters."
-                    },
-                    securityHolders_max: {
-                        name: "Shareholder Favorite",
-                        description: "Security holders have complete confidence in management.",
-                        effect: "Lower volatility during market downturns."
-                    }
-                };
-                
-                return fallbackBonuses[bonusId] || {
-                    name: `Bonus: ${bonusId}`,
-                    description: "A special bonus for your company.",
-                    effect: "Provides special benefits."
-                };
-            }
-
-            // Show a specific screen
-            showScreen(screenName) {
-                // Hide all screens
-                for (const [name, element] of Object.entries(this.elements.screens)) {
-                    element.classList.add('hidden');
-                }
-                
-                // Show requested screen
-                this.elements.screens[screenName].classList.remove('hidden');
-            }
-
-            // Show an overlay
-            showOverlay(overlayName) {
-                this.elements.overlays[overlayName].classList.remove('hidden');
-            }
-
-            // Hide an overlay
-            hideOverlay(overlayName) {
-                this.elements.overlays[overlayName].classList.add('hidden');
-            }
-
-            // Toggle an overlay
-            toggleOverlay(overlayName) {
-                this.elements.overlays[overlayName].classList.toggle('hidden');
-            }
-
-            // Show a notification
-            showNotification(message, duration = 3000) {
-                this.elements.notificationMessage.textContent = message;
-                this.elements.notification.classList.remove('hidden');
-                
-                setTimeout(() => {
-                    this.elements.notification.classList.add('hidden');
-                }, duration);
-            }
-
-            // Move to the next scenario
-            nextScenario() {
-                // Check for game over
-                if (this.gameState.isGameOver()) {
-                    this.gameOver();
-                    return;
-                }
-                
-                // Get the next scenario
-                this.currentScenario = this.scenarioManager.getNextScenario();
-                
-                // Update the scenario display
-                this.updateScenarioDisplay();
-                
-                // Update metrics and other UI elements
-                this.updateUI();
-            }
-
-            // Update the scenario display
-            updateScenarioDisplay() {
-                const { title, description, image, choices } = this.currentScenario;
-                
-                // Update text
-                this.elements.scenario.title.textContent = title;
-                this.elements.scenario.description.textContent = description;
-                
-                // Update image if available
-                if (image) {
-                    this.elements.scenario.image.style.backgroundImage = `url('${image}')`;
-                } else {
-                    this.elements.scenario.image.style.backgroundImage = 'url("office.jpg")';
-                }
-                
-                // Generate choice buttons
-                this.elements.scenario.choicesContainer.innerHTML = '';
-                
-                choices.forEach((choice, index) => {
-                    const choiceButton = document.createElement('button');
-                    choiceButton.className = 'choice-button';
-                    choiceButton.textContent = choice.text;
-                    
-                    choiceButton.addEventListener('click', () => {
-                        this.makeChoice(index);
-                    });
-                    
-                    this.elements.scenario.choicesContainer.appendChild(choiceButton);
-                });
-            }
-
-            // Make a choice in the current scenario
-            makeChoice(choiceIndex) {
-                const choice = this.currentScenario.choices[choiceIndex];
-                const effects = this.gameState.applyOutcome(choice.outcome);
-                
-                // Show feedback
-                this.showFeedback(choice, effects);
-                
-                // Update UI
-                this.updateUI();
-                
-                // Check for game over
-                if (this.gameState.isGameOver()) {
-                    // Don't immediately show game over to allow player to see feedback first
-                    // The continue button will trigger gameOver
-                }
-            }
-
-            // Show feedback after making a choice
-            showFeedback(choice, effects) {
-                const feedbackTitle = document.getElementById('feedback-title');
-                const feedbackEffects = document.getElementById('feedback-effects');
-                
-                feedbackTitle.textContent = 'Decision Made: ' + choice.text;
-                
-                let feedbackHTML = '<div class="feedback-effects-container">';
-                
-                // Add explanation text if available
-                if (choice.explanation) {
-                    feedbackHTML += `<p class="feedback-explanation">${choice.explanation}</p>`;
-                }
-                
-                // Add metrics effects
-                if (Object.keys(effects.metrics).length > 0) {
-                    feedbackHTML += '<div class="feedback-section"><h4>Business Impact:</h4><ul>';
-                    
-                    for (const [metric, data] of Object.entries(effects.metrics)) {
-                        const displayMetric = this.getDisplayName(metric);
-                        const changeClass = data.change > 0 ? 'positive' : (data.change < 0 ? 'negative' : 'neutral');
-                        const changeText = data.change > 0 ? `+${data.change}` : data.change;
-                        
-                        feedbackHTML += `
-                            <li class="${changeClass}">
-                                ${displayMetric}: ${changeText} (${data.previous} → ${data.current})
-                            </li>
-                        `;
-                    }
-                    
-                    feedbackHTML += '</ul></div>';
-                }
-                
-                // Add values effects
-                if (Object.keys(effects.values).length > 0) {
-                    feedbackHTML += '<div class="feedback-section"><h4>Values Impact:</h4><ul>';
-                    
-                    for (const [value, data] of Object.entries(effects.values)) {
-                        const displayValue = this.getDisplayName(value);
-                        const changeClass = data.change > 0 ? 'positive' : (data.change < 0 ? 'negative' : 'neutral');
-                        const changeText = data.change > 0 ? `+${data.change}` : data.change;
-                        
-                        feedbackHTML += `
-                            <li class="${changeClass}">
-                                ${displayValue}: ${changeText} (${data.previous} → ${data.current})
-                            </li>
-                        `;
-                    }
-                    
-                    feedbackHTML += '</ul></div>';
-                }
-                
-                // Add factions effects
-                if (Object.keys(effects.factions).length > 0) {
-                    feedbackHTML += '<div class="feedback-section"><h4>Reputation Impact:</h4><ul>';
-                    
-                    for (const [faction, data] of Object.entries(effects.factions)) {
-                        const displayFaction = this.getDisplayName(faction);
-                        const changeClass = data.change > 0 ? 'positive' : (data.change < 0 ? 'negative' : 'neutral');
-                        const changeText = data.change > 0 ? `+${data.change}` : data.change;
-                        
-                        feedbackHTML += `
-                            <li class="${changeClass}">
-                                ${displayFaction}: ${changeText} (${data.previous} → ${data.current})
-                            </li>
-                        `;
-                    }
-                    
-                    feedbackHTML += '</ul></div>';
-                }
-                
-                // Add flags
-                if (effects.flags.length > 0) {
-                    feedbackHTML += '<div class="feedback-section"><h4>New Developments:</h4><ul>';
-                    
-                    for (const flag of effects.flags) {
-                        feedbackHTML += `<li>Flag triggered: ${flag}</li>`;
-                    }
-                    
-                    feedbackHTML += '</ul></div>';
-                }
-                
-                feedbackHTML += '</div>';
-                
-                feedbackEffects.innerHTML = feedbackHTML;
-                
-                this.showOverlay('feedback');
-            }
-
-            // Helper to get display names
-            getDisplayName(key) {
-                const displayNames = {
-                    // Metrics
-                    revenue: 'Revenue',
-                    employeeEngagement: 'Employee Engagement',
-                    customerSatisfaction: 'Customer Satisfaction',
-                    
-                    // Values
-                    respect: 'Respect',
-                    integrity: 'Integrity',
-                    collaboration: 'Collaboration',
-                    customerFocus: 'Customer Focus',
-                    excellence: 'Excellence',
-                    
-                    // Factions
-                    banks: 'Banks',
-                    coOwners: 'Co-owners',
-                    regulators: 'Regulators',
-                    government: 'Government',
-                    securityHolders: 'Security Holders'
-                };
-                
-                return displayNames[key] || key;
-            }
-
-            // Update all UI elements
-            updateUI() {
-                // Update year
-                this.elements.yearDisplay.textContent = this.gameState.year;
-                
-                // Update metrics
-                for (const [metric, value] of Object.entries(this.gameState.metrics)) {
-                    if (this.elements.metrics[metric]) {
-                        this.elements.metrics[metric].meter.style.width = `${value}%`;
-                        this.elements.metrics[metric].value.textContent = value;
-                        
-                        // Color coding
-                        this.setMeterColor(this.elements.metrics[metric].meter, value);
-                    }
-                }
-                
-                // Update values
-                for (const [value, rating] of Object.entries(this.gameState.values)) {
-                    if (this.elements.values[value]) {
-                        this.elements.values[value].meter.style.width = `${rating}%`;
-                        this.elements.values[value].value.textContent = rating;
-                        
-                        // Color coding
-                        this.setMeterColor(this.elements.values[value].meter, rating);
-                    }
-                }
-                
-                // Update factions
-                for (const [faction, rating] of Object.entries(this.gameState.factions)) {
-                    if (this.elements.factions[faction]) {
-                        this.elements.factions[faction].meter.style.width = `${rating}%`;
-                        this.elements.factions[faction].value.textContent = rating;
-                        
-                        // Color coding
-                        this.setMeterColor(this.elements.factions[faction].meter, rating);
-                    }
-                }
-            }
-
-            // Set meter color based on value
-            setMeterColor(meterElement, value) {
-                if (value <= 20) {
-                    meterElement.className = 'meter critical';
-                } else if (value <= 40) {
-                    meterElement.className = 'meter poor';
-                } else if (value <= 60) {
-                    meterElement.className = 'meter average';
-                } else if (value <= 80) {
-                    meterElement.className = 'meter good';
-                } else {
-                    meterElement.className = 'meter excellent';
-                }
-            }
-
-            // Game over
-            gameOver() {
-                this.isRunning = false;
-                
-                // Get reason for game over
-                const reason = this.gameState.getGameOverReason();
-                
-                // Update game over screen
-                this.elements.gameOver.reason.textContent = reason;
-                this.elements.gameOver.yearsSurvived.textContent = this.gameState.year;
-                
-                // Generate final stats
-                this.elements.gameOver.stats.innerHTML = this.generateStatsHTML();
-                
-                // Show game over screen
-                this.showScreen('gameOver');
-            }
-        }
-
-        // Initialize game when document is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            window.game = new Game();
-            window.game.init();
-        });
-    </script>
-    
-    <script src="scenarios.js"></script>
-    <script src="extras.js" onerror="console.warn('Extras not loaded')"></script>
-</body>
-</html>
+                statsElement.innerHTML = this

@@ -15,7 +15,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 5, employee_engagement: 2, customer_satisfaction: -2 },
                     values: { excellence: 3, customer_focus: -1 },
-                    factions: { banks: 2, security_holders: 3, co_owners: 1 }
+                    factions: { banks: 2, security_holders: 3, co_owners: 1 },
+                    moneyCost: 30000000 // $30 million for premium development
                 }
             },
             {
@@ -24,7 +25,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 2, employee_engagement: 3, customer_satisfaction: 4 },
                     values: { respect: 2, collaboration: 3, customer_focus: 3 },
-                    factions: { government: 3, co_owners: 2, regulators: 2 }
+                    factions: { government: 3, co_owners: 2, regulators: 2 },
+                    moneyCost: 22000000 // $22 million for balanced development
                 }
             },
             {
@@ -34,7 +36,7 @@ window.gameScenarios = [
                     metrics: { revenue: -1, employee_engagement: -1, customer_satisfaction: 1 },
                     values: { integrity: 2, excellence: 1 },
                     factions: { banks: 3, security_holders: -1 },
-                    flags: ["conservative_strategy"]
+                    flags: ["The company is pursuing a conservative strategy."]
                 }
             }
         ]
@@ -50,7 +52,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: -3, customer_satisfaction: 5 },
                     values: { excellence: 2, customer_focus: 3 },
-                    factions: { security_holders: -2, co_owners: 2 }
+                    factions: { security_holders: -2, co_owners: 2 },
+                    moneyCost: 8000000 // $8 million in tenant incentives
                 }
             },
             {
@@ -59,7 +62,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 2, customer_satisfaction: 1 },
                     values: { collaboration: 2, excellence: 1 },
-                    factions: { security_holders: 2, banks: 1 }
+                    factions: { security_holders: 2, banks: 1 },
+                    moneyCost: 3500000 // $3.5 million for reconfiguration
                 }
             },
             {
@@ -69,7 +73,8 @@ window.gameScenarios = [
                     metrics: { revenue: 1, employee_engagement: 3, customer_satisfaction: 4 },
                     values: { excellence: 4, customer_focus: 3 },
                     factions: { government: 2, co_owners: 1, security_holders: -1 },
-                    flags: ["experiential_focus"]
+                    flags: ["The company is focusing on experiential retail."],
+                    moneyCost: 5000000 // $5 million for experiential transformation
                 }
             }
         ]
@@ -86,7 +91,8 @@ window.gameScenarios = [
                     metrics: { revenue: -3, employee_engagement: 4, customer_satisfaction: 3 },
                     values: { excellence: 4, customer_focus: 3 },
                     factions: { banks: -1, security_holders: -2, regulators: 2 },
-                    flags: ["digital_leader"]
+                    flags: ["The company is a digital leader in the industry."],
+                    moneyCost: 12000000 // $12 million for full digital transformation
                 }
             },
             {
@@ -95,7 +101,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: -1, employee_engagement: 2, customer_satisfaction: 1 },
                     values: { excellence: 2, integrity: 1 },
-                    factions: { banks: 1, security_holders: 1 }
+                    factions: { banks: 1, security_holders: 1 },
+                    moneyCost: 4000000 // $4 million initial investment with more phased
                 }
             },
             {
@@ -104,7 +111,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 0, employee_engagement: -1, customer_satisfaction: 3 },
                     values: { customer_focus: 4, collaboration: -1 },
-                    factions: { security_holders: 1, co_owners: 2 }
+                    factions: { security_holders: 1, co_owners: 2 },
+                    moneyCost: 2500000 // $2.5 million for customer-facing technology
                 }
             }
         ]
@@ -139,7 +147,8 @@ window.gameScenarios = [
                     metrics: { revenue: 2, employee_engagement: 1, customer_satisfaction: 1 },
                     values: { excellence: 3, integrity: 2 },
                     factions: { banks: 2, security_holders: 2 },
-                    flags: ["data_driven_leasing"]
+                    flags: ["The company uses data-driven leasing strategies."],
+                    moneyCost: 750000 // $750,000 for analytics software and expertise
                 }
             }
         ]
@@ -156,7 +165,8 @@ window.gameScenarios = [
                     metrics: { revenue: -2, employee_engagement: 4, customer_satisfaction: 2 },
                     values: { integrity: 4, excellence: 3 },
                     factions: { regulators: 4, government: 3, security_holders: -1 },
-                    flags: ["sustainability_leader"]
+                    flags: ["The company is a sustainability leader."],
+                    moneyCost: 15000000 // $15 million for comprehensive sustainability
                 }
             },
             {
@@ -165,7 +175,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 0, employee_engagement: 1, customer_satisfaction: 1 },
                     values: { integrity: 1, excellence: 1 },
-                    factions: { regulators: 1, security_holders: 1 }
+                    factions: { regulators: 1, security_holders: 1 },
+                    moneyCost: 3000000 // $3 million for limited initiatives
                 }
             },
             {
@@ -174,7 +185,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 1, employee_engagement: -2 },
                     values: { integrity: -3, customer_focus: 1 },
-                    factions: { regulators: -2, government: -1, security_holders: 2 }
+                    factions: { regulators: -2, government: -1, security_holders: 2 },
+                    moneyCost: 500000 // $500,000 for planning and PR
                 }
             }
         ]
@@ -192,7 +204,9 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 2, employee_engagement: -5, customer_satisfaction: -1 },
                     values: { excellence: 2, respect: -3 },
-                    factions: { security_holders: 3, regulators: -1 }
+                    factions: { security_holders: 3, regulators: -1 },
+                    moneyCost: 2000000, // $2 million for severance payments
+                    veryImpactful: true // This is a major decision with significant impact
                 }
             },
             {
@@ -201,7 +215,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 1, employee_engagement: 2 },
                     values: { respect: 3, collaboration: 3, integrity: 2 },
-                    factions: { security_holders: -1, regulators: 1 }
+                    factions: { security_holders: -1, regulators: 1 },
+                    moneyCost: 1000000 // $1 million for transition support
                 }
             },
             {
@@ -211,7 +226,8 @@ window.gameScenarios = [
                     metrics: { revenue: -1, employee_engagement: 4 },
                     values: { respect: 4, collaboration: 2, excellence: -1 },
                     factions: { security_holders: -2, co_owners: 1 },
-                    flags: ["employee_first_culture"]
+                    flags: ["The company prioritizes employee welfare over efficiency."],
+                    moneyCost: 1500000 // $1.5 million for training programs
                 }
             }
         ]
@@ -227,7 +243,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { employee_engagement: -4 },
                     values: { respect: -3, integrity: -2 },
-                    factions: { security_holders: 1, regulators: -1 }
+                    factions: { security_holders: 1, regulators: -1 },
+                    moneyCost: 3000000 // $3 million in increased executive compensation
                 }
             },
             {
@@ -237,7 +254,8 @@ window.gameScenarios = [
                     metrics: { revenue: -1, employee_engagement: 5 },
                     values: { respect: 4, integrity: 3 },
                     factions: { security_holders: -1, regulators: 2 },
-                    flags: ["equitable_compensation"]
+                    flags: ["The company has implemented equitable compensation practices."],
+                    moneyCost: 2000000 // $2 million in broader-based compensation
                 }
             },
             {
@@ -263,7 +281,8 @@ window.gameScenarios = [
                     metrics: { employee_engagement: 5, revenue: -1 },
                     values: { respect: 3, collaboration: -1 },
                     factions: { regulators: 1 },
-                    flags: ["progressive_workplace"]
+                    flags: ["The company has a progressive workplace culture."],
+                    moneyCost: 500000 // $500,000 for technology and policy implementation
                 }
             },
             {
@@ -272,7 +291,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { employee_engagement: 3 },
                     values: { respect: 2, collaboration: 2, excellence: 1 },
-                    factions: { security_holders: 1 }
+                    factions: { security_holders: 1 },
+                    moneyCost: 250000 // $250,000 for adjustments and technology
                 }
             },
             {
@@ -298,7 +318,8 @@ window.gameScenarios = [
                     metrics: { employee_engagement: 4, customer_satisfaction: 2 },
                     values: { respect: 5, integrity: 3 },
                     factions: { regulators: 2, government: 3 },
-                    flags: ["dei_leader"]
+                    flags: ["The company is a leader in diversity and inclusion."],
+                    moneyCost: 1500000 // $1.5 million for program implementation
                 }
             },
             {
@@ -307,7 +328,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { employee_engagement: 2, customer_satisfaction: 1 },
                     values: { respect: 2, integrity: 0 },
-                    factions: { regulators: 0, government: 1 }
+                    factions: { regulators: 0, government: 1 },
+                    moneyCost: 800000 // $800,000 for internal initiatives
                 }
             },
             {
@@ -316,7 +338,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { employee_engagement: -2 },
                     values: { respect: -3, integrity: -1 },
-                    factions: { regulators: -1, government: -2 }
+                    factions: { regulators: -1, government: -2 },
+                    moneyCost: 100000 // $100,000 for compliance measures
                 }
             }
         ]
@@ -333,7 +356,8 @@ window.gameScenarios = [
                     metrics: { revenue: -2, employee_engagement: 2 },
                     values: { integrity: 5, respect: 2 },
                     factions: { regulators: 3, security_holders: -1, banks: 2 },
-                    flags: ["transparent_governance"]
+                    flags: ["The company maintains transparent governance practices."],
+                    moneyCost: 1000000 // $1 million for external investigation
                 }
             },
             {
@@ -342,7 +366,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 0, employee_engagement: 0 },
                     values: { integrity: 0, excellence: 1 },
-                    factions: { regulators: 0, security_holders: 1 }
+                    factions: { regulators: 0, security_holders: 1 },
+                    moneyCost: 200000 // $200,000 for internal audit resources
                 }
             },
             {
@@ -352,7 +377,8 @@ window.gameScenarios = [
                     metrics: { revenue: 2, employee_engagement: -3 },
                     values: { integrity: -4, respect: -2 },
                     factions: { regulators: -4, security_holders: 2, banks: -2 },
-                    flags: ["governance_risk"]
+                    flags: ["The company faces significant governance risks."],
+                    veryImpactful: true // This is a major ethical decision with long-term consequences
                 }
             }
         ]
@@ -371,7 +397,8 @@ window.gameScenarios = [
                     metrics: { revenue: -2, customer_satisfaction: 5 },
                     values: { customer_focus: 4, excellence: 3 },
                     factions: { co_owners: 2, security_holders: -1 },
-                    flags: ["experience_focused"]
+                    flags: ["The company prioritizes exceptional customer experiences."],
+                    moneyCost: 10000000 // $10 million for comprehensive redesign
                 }
             },
             {
@@ -380,7 +407,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 0, customer_satisfaction: 2 },
                     values: { customer_focus: 2, excellence: 1 },
-                    factions: { co_owners: 1, security_holders: 1 }
+                    factions: { co_owners: 1, security_holders: 1 },
+                    moneyCost: 4000000 // $4 million for selective improvements
                 }
             },
             {
@@ -389,7 +417,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 1, customer_satisfaction: 1 },
                     values: { customer_focus: 1, excellence: -1 },
-                    factions: { security_holders: 2 }
+                    factions: { security_holders: 2 },
+                    moneyCost: 1000000 // $1 million for minor improvements
                 }
             }
         ]
@@ -406,7 +435,8 @@ window.gameScenarios = [
                     metrics: { revenue: -2, customer_satisfaction: 4 },
                     values: { respect: 3, integrity: 2, customer_focus: 3 },
                     factions: { government: 4, regulators: 2, security_holders: -2 },
-                    flags: ["community_champion"]
+                    flags: ["The company is a champion for community development."],
+                    moneyCost: 5000000 // $5 million for foundation establishment
                 }
             },
             {
@@ -415,7 +445,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 0, customer_satisfaction: 3 },
                     values: { collaboration: 3, customer_focus: 2 },
-                    factions: { government: 2, co_owners: 1 }
+                    factions: { government: 2, co_owners: 1 },
+                    moneyCost: 1500000 // $1.5 million for partnership programs
                 }
             },
             {
@@ -424,7 +455,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: -1, customer_satisfaction: 2 },
                     values: { customer_focus: 2, collaboration: 1 },
-                    factions: { government: 3, co_owners: 0 }
+                    factions: { government: 3, co_owners: 0 },
+                    moneyCost: 2000000 // $2 million for space conversion
                 }
             }
         ]
@@ -441,7 +473,8 @@ window.gameScenarios = [
                     metrics: { revenue: -1, customer_satisfaction: 4 },
                     values: { customer_focus: 3, excellence: 2 },
                     factions: { co_owners: 2, security_holders: -1 },
-                    flags: ["experiential_focus"]
+                    flags: ["The company is focusing on experiential retail."],
+                    moneyCost: 3000000 // $3 million for tenant incentives and remodeling
                 }
             },
             {
@@ -450,7 +483,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 2, customer_satisfaction: 2 },
                     values: { excellence: 3, customer_focus: 1 },
-                    factions: { security_holders: 2, co_owners: 1 }
+                    factions: { security_holders: 2, co_owners: 1 },
+                    moneyCost: 1500000 // $1.5 million for upgrades and incentives
                 }
             },
             {
@@ -460,7 +494,8 @@ window.gameScenarios = [
                     metrics: { revenue: 3, customer_satisfaction: -1 },
                     values: { excellence: 1, customer_focus: -1 },
                     factions: { banks: 3, security_holders: 3, co_owners: -1 },
-                    flags: ["conservative_strategy"]
+                    flags: ["The company is pursuing a conservative strategy."],
+                    moneyCost: 500000 // $500,000 for minor adjustments
                 }
             }
         ]
@@ -477,7 +512,8 @@ window.gameScenarios = [
                     metrics: { revenue: 2, customer_satisfaction: 0 },
                     values: { integrity: 2, customer_focus: 2, excellence: 2 },
                     factions: { regulators: 2, security_holders: 2 },
-                    flags: ["data_driven_retail"]
+                    flags: ["The company uses data-driven retail strategies."],
+                    moneyCost: 2000000 // $2 million for systems and compliance
                 }
             },
             {
@@ -486,7 +522,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 1, customer_satisfaction: 2 },
                     values: { integrity: 3, customer_focus: 1 },
-                    factions: { regulators: 3, security_holders: 0 }
+                    factions: { regulators: 3, security_holders: 0 },
+                    moneyCost: 1000000 // $1 million for limited systems
                 }
             },
             {
@@ -496,7 +533,8 @@ window.gameScenarios = [
                     metrics: { revenue: -1, customer_satisfaction: 3 },
                     values: { integrity: 4, excellence: -1 },
                     factions: { regulators: 4, security_holders: -1 },
-                    flags: ["privacy_first"]
+                    flags: ["The company prioritizes customer privacy above analytics."],
+                    moneyCost: 300000 // $300,000 for basic systems
                 }
             }
         ]
@@ -513,7 +551,8 @@ window.gameScenarios = [
                     metrics: { revenue: -2, customer_satisfaction: 4 },
                     values: { integrity: 3, customer_focus: 3, excellence: 2 },
                     factions: { regulators: 3, government: 2, security_holders: -1 },
-                    flags: ["security_leader"]
+                    flags: ["The company leads the industry in security practices."],
+                    moneyCost: 7000000 // $7 million for comprehensive security upgrades
                 }
             },
             {
@@ -522,7 +561,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: -1, customer_satisfaction: 1 },
                     values: { integrity: 1, customer_focus: 1 },
-                    factions: { regulators: 1, government: 0 }
+                    factions: { regulators: 1, government: 0 },
+                    moneyCost: 1500000 // $1.5 million for targeted improvements
                 }
             },
             {
@@ -532,7 +572,8 @@ window.gameScenarios = [
                     metrics: { revenue: 0, customer_satisfaction: -2 },
                     values: { integrity: -2, customer_focus: -1 },
                     factions: { regulators: -2, government: -1 },
-                    flags: ["PR_over_substance"]
+                    flags: ["The company prioritizes PR over substantive changes."],
+                    moneyCost: 500000 // $500,000 for PR campaign
                 }
             }
         ]
@@ -560,7 +601,8 @@ window.gameScenarios = [
                     metrics: { revenue: 2, employee_engagement: -1 },
                     values: { excellence: 2, collaboration: -3, respect: -2 },
                     factions: { co_owners: -4, security_holders: 2, banks: -1 },
-                    flags: ["partner_conflict"]
+                    flags: ["The company is involved in partnership conflicts."],
+                    moneyCost: 1000000 // $1 million for legal costs
                 }
             },
             {
@@ -570,7 +612,8 @@ window.gameScenarios = [
                     metrics: { revenue: -3, employee_engagement: 2 },
                     values: { excellence: 1, collaboration: -1 },
                     factions: { co_owners: -1, banks: -2, security_holders: -1 },
-                    flags: ["portfolio_consolidation"]
+                    flags: ["The company is consolidating its portfolio ownership."],
+                    moneyCost: 50000000 // $50 million for acquisition (major expense)
                 }
             }
         ]
@@ -596,7 +639,7 @@ window.gameScenarios = [
                     metrics: { revenue: 2, employee_engagement: 1 },
                     values: { excellence: 2, collaboration: -1 },
                     factions: { banks: -1, security_holders: 2 },
-                    flags: ["banking_consolidation"]
+                    flags: ["The company has consolidated its banking relationships."]
                 }
             },
             {
@@ -606,7 +649,8 @@ window.gameScenarios = [
                     metrics: { revenue: 1 },
                     values: { excellence: 3, integrity: 1 },
                     factions: { banks: -3, security_holders: 3, regulators: -1 },
-                    flags: ["alternative_financing"]
+                    flags: ["The company uses alternative financing strategies."],
+                    moneyCost: 500000 // $500,000 for advisory fees
                 }
             }
         ]
@@ -623,7 +667,8 @@ window.gameScenarios = [
                     metrics: { revenue: -3, employee_engagement: 3 },
                     values: { integrity: 5, respect: 3, excellence: -1 },
                     factions: { regulators: 3, government: 2, security_holders: -2 },
-                    flags: ["ethical_supply_chain"]
+                    flags: ["The company maintains an ethical supply chain."],
+                    moneyCost: 2500000 // $2.5 million for transition costs
                 }
             },
             {
@@ -632,7 +677,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: -1, employee_engagement: 1 },
                     values: { integrity: 2, collaboration: 2 },
-                    factions: { regulators: 1, government: 1, security_holders: 0 }
+                    factions: { regulators: 1, government: 1, security_holders: 0 },
+                    moneyCost: 500000 // $500,000 for monitoring and compliance
                 }
             },
             {
@@ -642,7 +688,8 @@ window.gameScenarios = [
                     metrics: { revenue: 0, employee_engagement: -2 },
                     values: { integrity: -3, respect: -2, excellence: 1 },
                     factions: { regulators: -2, government: -1, security_holders: 1 },
-                    flags: ["ethics_risk"]
+                    flags: ["The company faces ethics risks in its supply chain."],
+                    moneyCost: 200000 // $200,000 for limited monitoring
                 }
             }
         ]
@@ -659,7 +706,8 @@ window.gameScenarios = [
                     metrics: { employee_engagement: 2 },
                     values: { integrity: 3, collaboration: 3 },
                     factions: { regulators: 4, government: 2 },
-                    flags: ["regulatory_partner"]
+                    flags: ["The company partners effectively with regulators."],
+                    moneyCost: 500000 // $500,000 for engagement and advisory
                 }
             },
             {
@@ -668,7 +716,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 1 },
                     values: { collaboration: 2, integrity: 0 },
-                    factions: { regulators: 0, government: 1, security_holders: 1 }
+                    factions: { regulators: 0, government: 1, security_holders: 1 },
+                    moneyCost: 300000 // $300,000 for industry association fees
                 }
             },
             {
@@ -678,7 +727,7 @@ window.gameScenarios = [
                     metrics: { revenue: -1, employee_engagement: 1 },
                     values: { integrity: 2, excellence: 2 },
                     factions: { regulators: 2, banks: 1 },
-                    flags: ["regulatory_compliance"]
+                    flags: ["The company prioritizes regulatory compliance."]
                 }
             }
         ]
@@ -695,7 +744,8 @@ window.gameScenarios = [
                     metrics: { revenue: -2, customer_satisfaction: 3 },
                     values: { respect: 3, collaboration: 3 },
                     factions: { banks: -1, security_holders: -2 },
-                    flags: ["tenant_supporter"]
+                    flags: ["The company supports tenants through difficult periods."],
+                    moneyCost: 2000000 // $2 million in rent concessions
                 }
             },
             {
@@ -704,7 +754,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: -1, customer_satisfaction: 1 },
                     values: { excellence: 2, integrity: 1 },
-                    factions: { banks: 1, security_holders: 1 }
+                    factions: { banks: 1, security_holders: 1 },
+                    moneyCost: 800000 // $800,000 in selective concessions
                 }
             },
             {
@@ -714,7 +765,8 @@ window.gameScenarios = [
                     metrics: { revenue: 1, customer_satisfaction: -3 },
                     values: { respect: -3, collaboration: -2, excellence: 1 },
                     factions: { security_holders: 3, banks: 2, co_owners: -1 },
-                    flags: ["hardline_leasing"]
+                    flags: ["The company takes a hardline approach to leasing."],
+                    moneyCost: 1000000 // $1 million for tenant replacement costs
                 }
             }
         ]
@@ -733,7 +785,8 @@ window.gameScenarios = [
                     metrics: { employee_engagement: 3 },
                     values: { respect: 3, excellence: 2, integrity: 2 },
                     factions: { security_holders: 3, regulators: 2 },
-                    flags: ["progressive_governance"]
+                    flags: ["The company has progressive governance practices."],
+                    moneyCost: 500000 // $500,000 for search and onboarding
                 }
             },
             {
@@ -752,7 +805,7 @@ window.gameScenarios = [
                     metrics: { employee_engagement: -1 },
                     values: { respect: -2, integrity: -1 },
                     factions: { security_holders: -3, regulators: -1 },
-                    flags: ["governance_conflict"]
+                    flags: ["The company is experiencing governance conflicts."]
                 }
             }
         ]
@@ -769,7 +822,7 @@ window.gameScenarios = [
                     metrics: { revenue: -2 },
                     values: { integrity: 4, excellence: -1 },
                     factions: { regulators: 3, security_holders: -1 },
-                    flags: ["transparent_disclosure"]
+                    flags: ["The company prioritizes transparent disclosure practices."]
                 }
             },
             {
@@ -778,7 +831,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 0 },
                     values: { integrity: 1, excellence: 2 },
-                    factions: { regulators: 0, security_holders: 1 }
+                    factions: { regulators: 0, security_holders: 1 },
+                    moneyCost: 300000 // $300,000 for investigation
                 }
             },
             {
@@ -788,7 +842,7 @@ window.gameScenarios = [
                     metrics: { revenue: 2 },
                     values: { integrity: -3, excellence: -1 },
                     factions: { regulators: -3, security_holders: 2, banks: 1 },
-                    flags: ["disclosure_risk"]
+                    flags: ["The company faces disclosure risks."]
                 }
             }
         ]
@@ -805,7 +859,8 @@ window.gameScenarios = [
                     metrics: { employee_engagement: 4 },
                     values: { excellence: 3, respect: 2 },
                     factions: { security_holders: 3, regulators: 2 },
-                    flags: ["succession_ready"]
+                    flags: ["The company has robust succession planning in place."],
+                    moneyCost: 1000000 // $1 million for planning and development
                 }
             },
             {
@@ -814,7 +869,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { employee_engagement: -1 },
                     values: { excellence: 1, respect: -1 },
-                    factions: { security_holders: 2, regulators: 1 }
+                    factions: { security_holders: 2, regulators: 1 },
+                    moneyCost: 500000 // $500,000 for limited planning
                 }
             },
             {
@@ -824,7 +880,7 @@ window.gameScenarios = [
                     metrics: { employee_engagement: 0 },
                     values: { excellence: -1, integrity: -1 },
                     factions: { security_holders: -2, regulators: -1 },
-                    flags: ["governance_risk"]
+                    flags: ["The company has succession planning vulnerabilities."]
                 }
             }
         ]
@@ -841,7 +897,8 @@ window.gameScenarios = [
                     metrics: { employee_engagement: 2 },
                     values: { integrity: 4, excellence: 1 },
                     factions: { regulators: 3, security_holders: 1, banks: 2 },
-                    flags: ["transparent_reporting"]
+                    flags: ["The company maintains transparent reporting practices."],
+                    moneyCost: 300000 // $300,000 for comprehensive reporting
                 }
             },
             {
@@ -850,7 +907,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { employee_engagement: -1 },
                     values: { integrity: -1, excellence: 1 },
-                    factions: { security_holders: 3, banks: 1, regulators: -1 }
+                    factions: { security_holders: 3, banks: 1, regulators: -1 },
+                    moneyCost: 200000 // $200,000 for reporting
                 }
             },
             {
@@ -860,7 +918,8 @@ window.gameScenarios = [
                     metrics: { employee_engagement: 3 },
                     values: { integrity: 2, customer_focus: 2 },
                     factions: { government: 3, regulators: 2, security_holders: -1 },
-                    flags: ["ESG_focus"]
+                    flags: ["The company emphasizes ESG performance."],
+                    moneyCost: 350000 // $350,000 for ESG reporting
                 }
             }
         ]
@@ -876,7 +935,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { employee_engagement: 1 },
                     values: { respect: 2, collaboration: 2 },
-                    factions: { security_holders: 2, banks: 1 }
+                    factions: { security_holders: 2, banks: 1 },
+                    moneyCost: 500000 // $500,000 for advisory services
                 }
             },
             {
@@ -886,7 +946,8 @@ window.gameScenarios = [
                     metrics: { employee_engagement: -1 },
                     values: { excellence: 1, respect: -1 },
                     factions: { security_holders: -1, banks: 1 },
-                    flags: ["investor_conflict"]
+                    flags: ["The company is in conflict with investors."],
+                    moneyCost: 1000000 // $1 million for defense and communications
                 }
             },
             {
@@ -896,7 +957,8 @@ window.gameScenarios = [
                     metrics: { revenue: -1, employee_engagement: 2 },
                     values: { excellence: 2, integrity: 1 },
                     factions: { security_holders: 3, co_owners: -1 },
-                    flags: ["strategic_pivot"]
+                    flags: ["The company is pivoting its strategic direction."],
+                    moneyCost: 2000000 // $2 million for strategic initiatives
                 }
             }
         ]
@@ -918,7 +980,8 @@ window.gameScenarios = [
                     metrics: { revenue: -2, employee_engagement: -3, customer_satisfaction: -1 },
                     values: { excellence: 2, customer_focus: -2 },
                     factions: { banks: 3, security_holders: 2, co_owners: -1 },
-                    flags: ["recession_ready"]
+                    flags: ["The company is prepared for recession conditions."],
+                    veryImpactful: true // Major economic decision affecting all aspects
                 }
             },
             {
@@ -928,7 +991,8 @@ window.gameScenarios = [
                     metrics: { revenue: -3, customer_satisfaction: 3 },
                     values: { customer_focus: 3, collaboration: 3, respect: 2 },
                     factions: { security_holders: -2, banks: -1, co_owners: 2 },
-                    flags: ["tenant_supporter"]
+                    flags: ["The company supports tenants through difficult periods."],
+                    moneyCost: 5000000 // $5 million for tenant support
                 }
             },
             {
@@ -938,7 +1002,8 @@ window.gameScenarios = [
                     metrics: { revenue: 0, employee_engagement: 2 },
                     values: { excellence: 3, collaboration: -1 },
                     factions: { banks: -2, security_holders: 3, co_owners: 1 },
-                    flags: ["opportunistic_growth"]
+                    flags: ["The company pursues opportunistic growth strategies."],
+                    moneyCost: 1000000 // $1 million for deal assessments and preparation
                 }
             }
         ]
@@ -955,7 +1020,9 @@ window.gameScenarios = [
                     metrics: { revenue: -3, customer_satisfaction: 5 },
                     values: { respect: 4, integrity: 3, customer_focus: 4 },
                     factions: { government: 4, security_holders: -2, co_owners: 2 },
-                    flags: ["community_champion"]
+                    flags: ["The company is a champion for community development."],
+                    moneyCost: 15000000, // $15 million for rebuilding and community support
+                    veryImpactful: true // Significant crisis response
                 }
             },
             {
@@ -964,7 +1031,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: -1, customer_satisfaction: 0 },
                     values: { excellence: 2, customer_focus: 1, respect: -1 },
-                    factions: { security_holders: 2, co_owners: 1, government: -1 }
+                    factions: { security_holders: 2, co_owners: 1, government: -1 },
+                    moneyCost: 10000000 // $10 million for rebuilding
                 }
             },
             {
@@ -974,7 +1042,8 @@ window.gameScenarios = [
                     metrics: { revenue: 1, customer_satisfaction: -3 },
                     values: { excellence: 1, customer_focus: -3, respect: -2 },
                     factions: { security_holders: 3, government: -3, co_owners: -1 },
-                    flags: ["opportunistic_strategy"]
+                    flags: ["The company takes opportunistic approaches to asset management."],
+                    moneyCost: 2000000 // $2 million for assessments and planning
                 }
             }
         ]
@@ -991,7 +1060,9 @@ window.gameScenarios = [
                     metrics: { revenue: 5, employee_engagement: 3, customer_satisfaction: 0 },
                     values: { excellence: 3, collaboration: -1 },
                     factions: { banks: -3, security_holders: 2, co_owners: -1 },
-                    flags: ["major_expansion"]
+                    flags: ["The company is in a major expansion phase."],
+                    moneyCost: 200000000, // $200 million for acquisition
+                    veryImpactful: true // Transformative acquisition
                 }
             },
             {
@@ -1000,7 +1071,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 2, employee_engagement: 1 },
                     values: { excellence: 2, integrity: 1 },
-                    factions: { banks: -1, security_holders: 1, co_owners: 1 }
+                    factions: { banks: -1, security_holders: 1, co_owners: 1 },
+                    moneyCost: 80000000 // $80 million for selective acquisition
                 }
             },
             {
@@ -1010,7 +1082,7 @@ window.gameScenarios = [
                     metrics: { revenue: -1, employee_engagement: 0, customer_satisfaction: 2 },
                     values: { customer_focus: 2, excellence: 1 },
                     factions: { banks: 2, security_holders: -1 },
-                    flags: ["organic_focus"]
+                    flags: ["The company prioritizes organic growth over acquisitions."]
                 }
             }
         ]
@@ -1030,7 +1102,8 @@ window.gameScenarios = [
                     metrics: { revenue: -2, employee_engagement: 3, customer_satisfaction: 4 },
                     values: { excellence: 4, customer_focus: 3 },
                     factions: { security_holders: 1, co_owners: 2, banks: -1 },
-                    flags: ["technology_leader"]
+                    flags: ["The company is a technology leader in the industry."],
+                    moneyCost: 15000000 // $15 million for technology investment
                 }
             },
             {
@@ -1039,7 +1112,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { revenue: 0, employee_engagement: 1, customer_satisfaction: 1 },
                     values: { excellence: 2, customer_focus: 1 },
-                    factions: { security_holders: 1, co_owners: 1 }
+                    factions: { security_holders: 1, co_owners: 1 },
+                    moneyCost: 5000000 // $5 million for pilot program
                 }
             },
             {
@@ -1049,7 +1123,8 @@ window.gameScenarios = [
                     metrics: { revenue: 1, customer_satisfaction: 2 },
                     values: { customer_focus: 2, collaboration: 2, excellence: -1 },
                     factions: { co_owners: 2, government: 1 },
-                    flags: ["experience_focused"]
+                    flags: ["The company is focusing on experiential retail."],
+                    moneyCost: 8000000 // $8 million for experiential enhancements
                 }
             }
         ]
@@ -1065,7 +1140,8 @@ window.gameScenarios = [
                 outcome: {
                     metrics: { customer_satisfaction: -1 },
                     values: { integrity: 2, respect: 0 },
-                    factions: { government: 0, security_holders: 1 }
+                    factions: { government: 0, security_holders: 1 },
+                    moneyCost: 200000 // $200,000 for security and communications
                 }
             },
             {
@@ -1075,7 +1151,8 @@ window.gameScenarios = [
                     metrics: { customer_satisfaction: 1 },
                     values: { integrity: -1, customer_focus: 2 },
                     factions: { government: -1, regulators: 1 },
-                    flags: ["controversy_averse"]
+                    flags: ["The company avoids controversial situations."],
+                    moneyCost: 50000 // $50,000 for communication and managing fallout
                 }
             },
             {
@@ -1085,7 +1162,8 @@ window.gameScenarios = [
                     metrics: { customer_satisfaction: 2 },
                     values: { respect: 3, integrity: 3, collaboration: 3 },
                     factions: { government: 2, regulators: 1, security_holders: -1 },
-                    flags: ["community_dialogue"]
+                    flags: ["The company promotes community dialogue."],
+                    moneyCost: 500000 // $500,000 for additional events and security
                 }
             }
         ]
@@ -1107,7 +1185,7 @@ window.gameScenarios = [
                     metrics: { revenue: 3, employee_engagement: -1 },
                     values: { excellence: 2, customer_focus: -1 },
                     factions: { security_holders: 3, banks: 2 },
-                    flags: ["financial_focus"]
+                    flags: ["The company prioritizes financial performance."]
                 }
             },
             {
@@ -1117,7 +1195,8 @@ window.gameScenarios = [
                     metrics: { revenue: -1, employee_engagement: 4 },
                     values: { respect: 3, integrity: 3, collaboration: 3 },
                     factions: { regulators: 2, co_owners: 1 },
-                    flags: ["values_legacy"]
+                    flags: ["The company has established a strong values-based legacy."],
+                    moneyCost: 1000000 // $1 million for culture initiatives
                 }
             },
             {
@@ -1127,7 +1206,8 @@ window.gameScenarios = [
                     metrics: { revenue: -2, customer_satisfaction: 3 },
                     values: { integrity: 4, customer_focus: 2, excellence: 2 },
                     factions: { government: 3, regulators: 3, security_holders: -1 },
-                    flags: ["sustainability_leader"]
+                    flags: ["The company is a sustainability leader."],
+                    moneyCost: 5000000 // $5 million for sustainability initiatives
                 }
             }
         ]
@@ -1147,7 +1227,8 @@ window.gameScenarios = [
                     metrics: { revenue: 2, employee_engagement: 4 },
                     values: { excellence: 3, collaboration: 2 },
                     factions: { banks: -1, security_holders: 2, co_owners: 2 },
-                    flags: ["diversification_strategy"]
+                    flags: ["The company is pursuing a diversification strategy."],
+                    veryImpactful: true // Major strategic direction
                 }
             },
             {
@@ -1157,7 +1238,8 @@ window.gameScenarios = [
                     metrics: { revenue: 3, customer_satisfaction: 3 },
                     values: { customer_focus: 3, excellence: 2 },
                     factions: { co_owners: 3, security_holders: 1 },
-                    flags: ["premium_strategy"]
+                    flags: ["The company is focusing on premium retail destinations."],
+                    veryImpactful: true // Major strategic direction
                 }
             },
             {
@@ -1167,7 +1249,9 @@ window.gameScenarios = [
                     metrics: { revenue: 0, employee_engagement: 2, customer_satisfaction: 4 },
                     values: { excellence: 4, customer_focus: 3, collaboration: 2 },
                     factions: { security_holders: 3, banks: -2 },
-                    flags: ["digital_transformation"]
+                    flags: ["The company is transforming into a digital-physical hybrid."],
+                    moneyCost: 25000000, // $25 million for digital transformation
+                    veryImpactful: true // Major strategic direction
                 }
             }
         ]

@@ -27,7 +27,8 @@
                             metrics: { employee_engagement: 3 },
                             values: { respect: 3, collaboration: 4, integrity: 1 },
                             factions: { security_holders: 1 },
-                            flags: ["conflict_resolution"]
+                            flags: ["The company has effective conflict resolution processes."],
+                            moneyCost: 100000 // $100,000 for mediation and facilitation
                         }
                     },
                     {
@@ -37,7 +38,8 @@
                             metrics: { employee_engagement: 0, revenue: 1 },
                             values: { respect: -1, collaboration: -2, excellence: 1 },
                             factions: { security_holders: 2 },
-                            flags: ["structural_solution"]
+                            flags: ["The company uses structural solutions for personnel conflicts."],
+                            moneyCost: 250000 // $250,000 for restructuring
                         }
                     },
                     {
@@ -47,7 +49,8 @@
                             metrics: { employee_engagement: -3, revenue: -1 },
                             values: { respect: -2, excellence: 2 },
                             factions: { security_holders: 3, co_owners: -1 },
-                            flags: ["leadership_change"]
+                            flags: ["The company has undergone leadership changes."],
+                            moneyCost: 1500000 // $1.5 million for severance and recruitment
                         }
                     }
                 ]
@@ -64,7 +67,9 @@
                             metrics: { revenue: -4, employee_engagement: 3, customer_satisfaction: 4 },
                             values: { excellence: 3, customer_focus: 4 },
                             factions: { banks: -2, security_holders: -1, co_owners: 2 },
-                            flags: ["major_strategic_pivot"]
+                            flags: ["The company has pivoted to a fundamentally new strategy."],
+                            moneyCost: 50000000, // $50 million for transformation
+                            veryImpactful: true // Major strategic pivot
                         }
                     },
                     {
@@ -74,7 +79,8 @@
                             metrics: { revenue: -1, employee_engagement: 1, customer_satisfaction: 2 },
                             values: { excellence: 2, integrity: 2 },
                             factions: { banks: 1, security_holders: 2 },
-                            flags: ["strategic_experimentation"]
+                            flags: ["The company experiments with new strategic directions."],
+                            moneyCost: 15000000 // $15 million for pilot program
                         }
                     },
                     {
@@ -84,7 +90,7 @@
                             metrics: { revenue: 2, employee_engagement: -2 },
                             values: { excellence: 1, customer_focus: -1 },
                             factions: { banks: 2, security_holders: 3, co_owners: -1 },
-                            flags: ["strategic_continuity"]
+                            flags: ["The company maintains strategic continuity."]
                         }
                     }
                 ]
@@ -101,7 +107,8 @@
                             metrics: { employee_engagement: 5, customer_satisfaction: 2 },
                             values: { respect: 4, integrity: 3 },
                             factions: { security_holders: -2, government: 3, regulators: 2 },
-                            flags: ["compensation_reform"]
+                            flags: ["The company has implemented equitable compensation reform."],
+                            moneyCost: 2000000 // $2 million for adjusted compensation and benefits
                         }
                     },
                     {
@@ -110,7 +117,8 @@
                         outcome: {
                             metrics: { employee_engagement: 0, customer_satisfaction: 0 },
                             values: { integrity: 1, respect: -1 },
-                            factions: { security_holders: 1, government: 0, regulators: 1 }
+                            factions: { security_holders: 1, government: 0, regulators: 1 },
+                            moneyCost: 250000 // $250,000 for disclosure and communications
                         }
                     },
                     {
@@ -120,7 +128,7 @@
                             metrics: { employee_engagement: -3, customer_satisfaction: -1 },
                             values: { respect: -3, integrity: -2 },
                             factions: { security_holders: 2, government: -2, regulators: -1 },
-                            flags: ["compensation_controversy"]
+                            flags: ["The company faces ongoing compensation controversies."]
                         }
                     }
                 ]
@@ -137,7 +145,8 @@
                             metrics: { employee_engagement: 4, revenue: -1 },
                             values: { excellence: 3, respect: 3 },
                             factions: { security_holders: 3, regulators: 2 },
-                            flags: ["succession_strength"]
+                            flags: ["The company has strong succession planning."],
+                            moneyCost: 1500000 // $1.5 million for development programs
                         }
                     },
                     {
@@ -146,7 +155,8 @@
                         outcome: {
                             metrics: { employee_engagement: 0, revenue: 0 },
                             values: { excellence: 2, respect: 0 },
-                            factions: { security_holders: 2, regulators: 1 }
+                            factions: { security_holders: 2, regulators: 1 },
+                            moneyCost: 750000 // $750,000 for executive search services
                         }
                     },
                     {
@@ -156,7 +166,8 @@
                             metrics: { employee_engagement: -1, revenue: 1 },
                             values: { integrity: -1, excellence: -1 },
                             factions: { security_holders: 0, regulators: -1 },
-                            flags: ["succession_vulnerability"]
+                            flags: ["The company has succession planning vulnerabilities."],
+                            moneyCost: 100000 // $100,000 for minimal compliance
                         }
                     }
                 ]
@@ -173,7 +184,7 @@
                             metrics: { revenue: -1 },
                             values: { integrity: 5, respect: 2 },
                             factions: { regulators: 3, security_holders: 1 },
-                            flags: ["governance_excellence"]
+                            flags: ["The company maintains excellent governance practices."]
                         }
                     },
                     {
@@ -192,7 +203,8 @@
                             metrics: { revenue: 2 },
                             values: { integrity: -2, excellence: 1 },
                             factions: { regulators: -2, security_holders: 2 },
-                            flags: ["governance_risk"]
+                            flags: ["The company faces governance risks."],
+                            moneyCost: 500000 // $500,000 for transaction restructuring
                         }
                     }
                 ]
@@ -209,7 +221,8 @@
                             metrics: { employee_engagement: 4, customer_satisfaction: 2, revenue: -1 },
                             values: { respect: 3, integrity: 3, collaboration: 3, customer_focus: 3, excellence: 2 },
                             factions: { security_holders: 1, government: 2 },
-                            flags: ["values_modernization"]
+                            flags: ["The company has modernized its corporate values."],
+                            moneyCost: 1000000 // $1 million for values initiative
                         }
                     },
                     {
@@ -218,7 +231,8 @@
                         outcome: {
                             metrics: { employee_engagement: 2, customer_satisfaction: 1 },
                             values: { respect: 1, integrity: 1, collaboration: 1, customer_focus: 1, excellence: 1 },
-                            factions: { security_holders: 2, government: 1 }
+                            factions: { security_holders: 2, government: 1 },
+                            moneyCost: 300000 // $300,000 for communications and training
                         }
                     },
                     {
@@ -228,7 +242,8 @@
                             metrics: { employee_engagement: -1, customer_satisfaction: -1, revenue: 1 },
                             values: { integrity: 2, excellence: 0 },
                             factions: { security_holders: 3, government: -1 },
-                            flags: ["traditional_values"]
+                            flags: ["The company maintains traditional corporate values."],
+                            moneyCost: 100000 // $100,000 for communications
                         }
                     }
                 ]
@@ -245,7 +260,8 @@
                             metrics: { employee_engagement: 4, revenue: -1 },
                             values: { respect: 4, excellence: 1, collaboration: 2 },
                             factions: { security_holders: 0 },
-                            flags: ["wellness_leader"]
+                            flags: ["The company prioritizes executive wellness."],
+                            moneyCost: 750000 // $750,000 for wellness program
                         }
                     },
                     {
@@ -254,7 +270,8 @@
                         outcome: {
                             metrics: { employee_engagement: 2, revenue: 0 },
                             values: { respect: 2, collaboration: 1 },
-                            factions: { security_holders: 1 }
+                            factions: { security_holders: 1 },
+                            moneyCost: 250000 // $250,000 for temporary adjustments
                         }
                     },
                     {
@@ -264,7 +281,8 @@
                             metrics: { employee_engagement: -1, revenue: 2 },
                             values: { respect: -1, excellence: 2 },
                             factions: { security_holders: 2, banks: 1 },
-                            flags: ["consultant_reliance"]
+                            flags: ["The company relies on external consultants for executive functions."],
+                            moneyCost: 2000000 // $2 million for consulting services
                         }
                     }
                 ]
@@ -281,7 +299,8 @@
                             metrics: { employee_engagement: 5, customer_satisfaction: 3, revenue: -1 },
                             values: { integrity: 3, respect: 2, customer_focus: 3 },
                             factions: { security_holders: 1, government: 3, regulators: 2 },
-                            flags: ["purpose_driven"]
+                            flags: ["The company has become purpose driven."],
+                            moneyCost: 2000000 // $2 million for purpose initiative
                         }
                     },
                     {
@@ -290,7 +309,8 @@
                         outcome: {
                             metrics: { employee_engagement: 2, customer_satisfaction: 1, revenue: 0 },
                             values: { integrity: 1, customer_focus: 1 },
-                            factions: { security_holders: 2, government: 1 }
+                            factions: { security_holders: 2, government: 1 },
+                            moneyCost: 500000 // $500,000 for development and communications
                         }
                     },
                     {
@@ -300,7 +320,8 @@
                             metrics: { employee_engagement: -2, customer_satisfaction: -1, revenue: 2 },
                             values: { integrity: -1, customer_focus: -2 },
                             factions: { security_holders: 4, government: -2, regulators: -1 },
-                            flags: ["shareholder_primacy"]
+                            flags: ["The company prioritizes shareholder value above all."],
+                            veryImpactful: true // Major stance on corporate purpose
                         }
                     }
                 ]
