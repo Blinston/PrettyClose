@@ -36,7 +36,7 @@
                     <h3>Core Business</h3>
                     <div class="metric" id="money">
                         <span class="metric-label">Cash</span>
-                        <span class="cash-value">$<span id="cash-amount">10,000,000</span></span>
+                        <span class="cash-value">$<span id="cash-amount">100,000,000</span></span>
                     </div>
                     <div class="metric" id="revenue">
                         <span class="metric-label">Revenue</span>
@@ -268,5 +268,13 @@
     <script src="game-core.js"></script>
     <script src="scenarios.js"></script>
     <script src="extras.js" onerror="console.warn('Extras not loaded')"></script>
+    <!-- Ensure menu button works -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('menu-button').addEventListener('click', function() {
+                document.getElementById('menu-overlay').classList.toggle('hidden');
+            });
+        });
+    </script>
 </body>
 </html>

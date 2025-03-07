@@ -68,6 +68,25 @@ class GameState {
         this.playerEmail = "";
     }
 
+    // Calculate weekly income based on revenue and employee engagement
+    calculateWeeklyIncome() {
+        // Base weekly income of $1M at revenue 50
+        const baseWeeklyIncome = 2000000;
+        
+        // More dramatic scaling based on revenue
+        // At revenue 100, this would be 2.5x base income ($2.5M/week)
+        // At revenue 25, this would be 0.35x base income ($350K/week)
+        const revenueMultiplier = Math.pow(this.metrics.revenue / 50, 1.5);
+        
+        // Stronger boost based on employee engagement (up to 40% at max engagement)
+        const engagementBoost = 1 + (this.metrics.employeeEngagement / 250); // 0.4 at 100 engagement
+        
+        // Calculate final weekly income
+        const weeklyIncome = Math.round(baseWeeklyIncome * revenueMultiplier * engagementBoost);
+        
+        return weeklyIncome;
+    }
+
     // Set player email
     setPlayerEmail(email) {
         this.playerEmail = email;
@@ -178,6 +197,31 @@ class GameState {
             this.stats.decisionsPerYear[this.year] = 0;
         }
         this.stats.decisionsPerYear[this.year]++;
+
+        // Add weekly income
+        const weeklyIncome = this.calculateWeeklyIncome();
+        this.cash += weeklyIncome;
+
+        // Track in cash flow statistics
+        if (!this.stats.cashFlow[this.year]) {
+            this.stats.cashFlow[this.year] = {
+                income: weeklyIncome,
+                expenses: outcome.cost || 0,
+                net: weeklyIncome - (outcome.cost || 0)
+            };
+        } else {
+            this.stats.cashFlow[this.year].income += weeklyIncome;
+            this.stats.cashFlow[this.year].expenses += (outcome.cost || 0);
+            this.stats.cashFlow[this.year].net += weeklyIncome - (outcome.cost || 0);
+        }
+
+        // Add income to effects for news feed
+        effects.weeklyIncome = weeklyIncome;
+        if (!effects.cashImpact) {
+            effects.cashImpact = weeklyIncome;
+        } else {
+            effects.cashImpact += weeklyIncome;
+        }
 
         // Check for year advancement (after 52 scenarios/weeks)
         if (this.week > 52) {
@@ -429,25 +473,6 @@ class GameState {
         // Natural slight decline in metrics to create challenge
         this.metrics.revenue = Math.max(0, this.metrics.revenue - 2);
         this.metrics.employeeEngagement = Math.max(0, this.metrics.employeeEngagement - 1);
-        
-        // Generate income based on revenue metric
-        const baseIncome = 5000000; // Base income of $5M per year
-        const revenueMultiplier = this.metrics.revenue / 50; // Revenue performance affects income
-        
-        const yearlyIncome = Math.round(baseIncome * revenueMultiplier);
-        this.cash += yearlyIncome;
-        
-        // Track cash flow
-        if (!this.stats.cashFlow[this.year - 1]) {
-            this.stats.cashFlow[this.year - 1] = {
-                income: yearlyIncome,
-                expenses: 0,
-                net: yearlyIncome
-            };
-        } else {
-            this.stats.cashFlow[this.year - 1].income += yearlyIncome;
-            this.stats.cashFlow[this.year - 1].net += yearlyIncome;
-        }
         
         // Apply active bonuses
         this.applyActiveBonuses();
