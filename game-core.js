@@ -1363,9 +1363,23 @@ class Game {
             const email = this.elements.playerEmail.value.trim();
             if (email) {
                 this.gameState.setPlayerEmail(email);
+                        
+        // Add this code to send the notification to Google Sheets
+                fetch('https://script.google.com/macros/s/AKfycbwHIPiHUj72p8q5m1ujPVDpyKlIwK7tKX7PboVZ6d9lZtC_vqAP6ptUZRJtW486GchR/exec', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: email,
+                        gameVersion: "1.0"
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .catch(error => console.error('Error sending player data:', error));
+                
                 this.start();
             } else {
-                this.showNotification('Please enter an email address to save your progress.');
+                this.showNotification('Please enter an email address to start.');
             }
         });
         
